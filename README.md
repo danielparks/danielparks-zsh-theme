@@ -1,4 +1,4 @@
-# agnoster.zsh-theme
+# My modified fork of agnoster.zsh-theme
 
 A ZSH theme optimized for people who use:
 

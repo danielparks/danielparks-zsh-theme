@@ -1,4 +1,4 @@
-# https://github.com/agnoster zsh theme
+# Original theme https://github.com/agnoster zsh theme
 
 ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
@@ -12,16 +12,27 @@ function _git_info() {
     local BG_COLOR=green
     if [[ -n $(parse_git_dirty) ]]; then
       BG_COLOR=yellow
+      FG_COLOR=black
+    else
+        if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+            BG_COLOR=red
+            FG_COLOR=white
+        fi
     fi
-    echo "%{%K{$BG_COLOR}%}⮀%{%F{black}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}⮀"
+    echo "%{%K{$BG_COLOR}%}⮀%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}⮀"
   else
     echo "%{%K{blue}%}⮀"
   fi
 }
 
-PROMPT_HOST='%{%b%F{gray}%K{black}%} %(?.%{%F{green}%}✔.%{%F{red}%}✘)%{%F{gray}%} %m %{%F{black}%}'
-PROMPT_DIR='%{%F{white}%} %1~ '
+function virtualenv_info {
+    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+}
+
+PROMPT_HOST='%{%b%F{gray}%K{black}%} %(?.%{%F{green}%}✔.%{%F{red}%}✘)%{%F{yellow}%} %n %{%F{black}%}'
+PROMPT_DIR='%{%F{white}%} %~%  '
 PROMPT_SU='%(!.%{%k%F{blue}%K{black}%}⮀%{%F{yellow}%} ⚡ %{%k%F{black}%}.%{%k%F{blue}%})⮀%{%f%k%b%}'
 
-PROMPT='%{%f%b%k%}
-$PROMPT_HOST$(_git_info)$PROMPT_DIR$PROMPT_SU '
+PROMPT='%{%f%b%k%}$PROMPT_HOST$(_git_info)$PROMPT_DIR$PROMPT_SU
+$(virtualenv_info)❯ '
+RPROMPT='%{$fg[green]%}[%*]%{$reset_color%}'
