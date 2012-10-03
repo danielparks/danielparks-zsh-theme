@@ -13,11 +13,11 @@ function _git_info() {
     if [[ -n $(parse_git_dirty) ]]; then
       BG_COLOR=yellow
       FG_COLOR=black
-    else
-        if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-            BG_COLOR=red
-            FG_COLOR=white
-        fi
+    fi
+
+    if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+        BG_COLOR=red
+        FG_COLOR=white
     fi
     echo "%{%K{$BG_COLOR}%}⮀%{%F{$FG_COLOR}%} $(_git_prompt_info) %{%F{$BG_COLOR}%K{blue}%}⮀"
   else
