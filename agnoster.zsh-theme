@@ -36,3 +36,5 @@ PROMPT_SU='%(!.%{%k%F{blue}%K{black}%}⮀%{%F{yellow}%} ⚡ %{%k%F{black}%}.%{%k
 PROMPT='%{%f%b%k%}$PROMPT_HOST$(_git_info)$PROMPT_DIR$PROMPT_SU
 $(virtualenv_info)❯ '
 RPROMPT='%{$fg[green]%}[%*]%{$reset_color%}'
+
+prompt_smileart_setup "$@"
