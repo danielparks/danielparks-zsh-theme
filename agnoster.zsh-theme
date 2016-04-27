@@ -3,7 +3,7 @@
 ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
 function _git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="$(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
   echo "${ref/refs\/heads\//⭠ }$(parse_git_dirty)"
 }
 
