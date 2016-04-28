@@ -16,7 +16,7 @@ function _git_info() {
 
 
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2> /dev/null)"
-    echo "%F{$FG_COLOR}%B${git_dirty}${ref/refs\/heads\//}%f%b"
+    echo "%F{$FG_COLOR}${git_dirty}${ref/refs\/heads\//}%f"
   else
     echo ""
   fi
@@ -29,12 +29,12 @@ function virtualenv_info {
 function set_prompt {
   local exit_code='%(?.%F{green}✔.%F{red}✘)%f'
   local user='%F{blue}%n@%m%f'
-  local directory='%B%F{white}%~%f%b'
+  local directory='%F{white}%~%f'
   local su='%(!.%F{black}%K{yellow} ⚡ .)'
   local time='%F{blue}%D{%L:%M:%S %p}%f'
 
   PROMPT="
-%f%k%b$exit_code $user "'$(_git_info)'" $directory $time
+%f%k%B$exit_code $user "'$(_git_info)'" $directory $time
 "'$(virtualenv_info)'"$su❯%f%k%b "
   RPROMPT=
 }
