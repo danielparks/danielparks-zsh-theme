@@ -33,8 +33,8 @@ _git_info () {
       fg_color=red
     fi
 
-    ref=$(git symbolic-ref HEAD 2> /dev/null) ||
-      ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2> /dev/null)"
+    ref=$(git symbolic-ref HEAD 2>/dev/null) ||
+      ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2>/dev/null)"
     print -Pn " %F{$fg_color}${ref/refs\/heads\//}${git_dirty}%f"
   fi
 }
