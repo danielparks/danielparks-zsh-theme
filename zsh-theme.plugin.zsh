@@ -55,9 +55,11 @@ _agnoster_precmd () {
     preprompt+='%f%k%B%F{red}✘%f'
   fi
 
-  preprompt+=' %F{blue}%n@%m%f' # user@host
-  preprompt+=$(_git_info)
+  if [ $SSH_CONNECTION ] ; then
+    preprompt+=' %F{cyan}%n@%m%f' # user@host
+  fi
 
+  preprompt+=$(_git_info)
   preprompt+=' %F{white}%~%f' # directory
   preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
   preprompt+=$(_virtualenv_info)
