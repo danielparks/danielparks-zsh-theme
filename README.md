@@ -1,36 +1,27 @@
-# My modified fork of agnoster.zsh-theme
+# My fork of agnoster.zsh-theme
 
-A ZSH theme optimized for people who use:
+~~~
+✔ master ⚙ ~/work/simplepup 10:25:31 PM (simplepup)
+❯ ssh vm1.oxidized.org
 
-- Solarized
-- Git
-- Unicode-compatible fonts and terminals (I use iTerm2 + Menlo)
-
-# Compatibility
-
-To test if your terminal and font support it, check that all the necessary characters are supported by copying the following command to your terminal: `echo "⮀ ± ⭠ ➦ ✔ ✘ ⚡"`. The result should look like this:
-
-![Character Example](http://cl.ly/content/image/2l3w443z363P/aHR0cDovL2YuY2wubHkvaXRlbXMvM2ozTjJpMDMzTzJNM0ozcDFjMjgvU2NyZWVuJTIwU2hvdCUyMDIwMTItMDktMTQlMjBhdCUyMDEyLjA2LjAyJTIwLnBuZw==)
+✔ daniel@vm1 master ~ 10:25:40 PM
+❯
+~~~
 
 ## What does it show?
 
 - Success (✔) or failure (✘) of previous command
-- Hostname
+- If connected via SSH, user and host
 - Git status
-  - Branch (⭠) or detached head (➦)
-  - Current branch / SHA1 in detached head state
-  - Dirty working directory (±, color change)
+  - Current branch, or sha in detached HEAD state
+  - Dirty working directory (⚙, color change)
 - Working directory
-- Elevated (root) privileges (⚡)
+- Wall time
+- Virtualenv
+- Wall time of last command if it took more than 5 seconds
+- Root privileges (⚡)
 
-![Screenshot](http://i.imgur.com/aPmLi.png)
+## Compatibility
 
-## Future Work
+To test if your terminal and font support, try `echo "⚙ ✔ ✘ ⚡"`.
 
-I don't want to clutter it up too much, but I am toying with the idea of adding RVM (ruby version) and n (node.js version) display.
-
-It's currently hideously slow, especially inside a git repo. I guess it's not overly so for comparable themes, but it bugs me, and I'd love to hear ideas about how to improve the performance.
-
-Would be nice for the code to be a bit more sane and re-usable. Something to easily append a section with a given FG/BG, and add the correct opening and closing.
-
-Apparently the unicode characters don't display correctly on all systems. It would be nice to be able to say "this font will make it work, always". But what font?
