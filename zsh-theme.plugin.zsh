@@ -40,7 +40,7 @@ _git_info () {
 }
 
 _virtualenv_info () {
-  [ $venv_name ] && print -n " ($venv_name)"
+  [ $VIRTUAL_ENV ] && print -n " (${VIRTUAL_ENV:t})"
 }
 
 _agnoster_precmd () {
