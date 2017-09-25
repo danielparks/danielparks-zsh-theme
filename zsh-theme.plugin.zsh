@@ -56,7 +56,7 @@ _agnoster_precmd () {
   fi
 
   if [ $SSH_CONNECTION ] ; then
-    preprompt+=' %F{cyan}%n@%m%f' # user@host
+    preprompt+=' %F{yellow}%n@%m%f' # user@host
   fi
 
   preprompt+=$(_git_info)
@@ -73,6 +73,12 @@ _agnoster_precmd () {
   fi
 
   print -P $preprompt
+
+  if [ $SSH_CONNECTION ] ; then
+    print -Pn "\e]2;%n@%M %~\a"
+  else
+    print -Pn "\e]2;%~\a"
+  fi
 }
 
 _agnoster_preexec () {
