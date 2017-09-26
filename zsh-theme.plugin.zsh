@@ -67,6 +67,7 @@ _agnoster_precmd () {
   local startseconds=${_agnoster_preexec_timestamp:-$EPOCHSECONDS}
   integer elapsed
   (( elapsed = EPOCHSECONDS - startseconds ))
+  _agnoster_preexec_timestamp=
 
   if (( elapsed > 5 )) ; then
     preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
