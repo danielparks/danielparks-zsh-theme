@@ -25,7 +25,7 @@ _git_info () {
     fg_color=green
 
     if ! command git diff --quiet --ignore-submodules HEAD &>/dev/null ; then
-      git_dirty=' ⚙'
+      git_dirty=' %1{⚙%}'
       fg_color=yellow
     fi
 
@@ -50,9 +50,9 @@ _agnoster_precmd () {
   local preprompt=$'\n'
 
   if [ $last_status = 0 ] ; then
-    preprompt+='%f%k%B%F{green}✔%f'
+    preprompt+='%f%k%B%F{green}%1{✔%}%f'
   else
-    preprompt+='%f%k%B%F{red}✘%f'
+    preprompt+='%f%k%B%F{red}%1{✘%}%f'
   fi
 
   if [ $SSH_CONNECTION ] ; then
@@ -93,5 +93,5 @@ _agnoster_preexec () {
   add-zsh-hook precmd _agnoster_precmd
   add-zsh-hook preexec _agnoster_preexec
 
-  PROMPT='%(!.%F{yellow}⚡⚡⚡ .)❯%f%k%b '
+  PROMPT='%(!.%F{yellow}root.)%1{❯%}%f%k%b '
 }

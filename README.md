@@ -19,9 +19,8 @@
 - Wall time
 - Virtualenv
 - Wall time of last command if it took more than 5 seconds
-- Root privileges (⚡)
+- Root privileges (root❯)
 
 ## Compatibility
 
 To test if your terminal and font support, try `echo "⚙ ✔ ✘ ⚡"`.
-
