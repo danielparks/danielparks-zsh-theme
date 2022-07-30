@@ -76,7 +76,7 @@ _agnoster_precmd () {
   print -P $preprompt
 
   if [ $SSH_CONNECTION ] ; then
-    print -Pn "\e]2;%n@%M %~\a"
+    print -Pn "\e]2;%n@%m %~\a"
   else
     print -Pn "\e]2;%~\a"
   fi
