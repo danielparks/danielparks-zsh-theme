@@ -67,7 +67,7 @@ _agnoster_precmd () {
   preprompt+=$(_virtualenv_info)
 
   local startseconds=${_agnoster_preexec_timestamp:-$EPOCHREALTIME}
-  integer elapsed
+  float elapsed
   (( elapsed = EPOCHREALTIME - startseconds ))
   _agnoster_preexec_timestamp=
 
