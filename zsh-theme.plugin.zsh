@@ -1,18 +1,20 @@
 # Original theme https://github.com/agnoster/agnoster-zsh-theme
 
-# turns seconds into human readable time
-# 165392 => 1d 21h 56m 32s
-# https://github.com/sindresorhus/pretty-time-zsh
+# turns (fractional) seconds into human readable time
+# 165392.3129 => 1d 21h 56m 32s 313ms
+# Based on https://github.com/sindresorhus/pretty-time-zsh
 _agnoster_human_time() {
-  local total_seconds=$1
-  local days=$(( total_seconds / 60 / 60 / 24 ))
-  local hours=$(( total_seconds / 60 / 60 % 24 ))
-  local minutes=$(( total_seconds / 60 % 60 ))
-  local seconds=$(( total_seconds % 60 ))
+  float total_seconds=$1
+  integer days=$(( total_seconds / 60 / 60 / 24 ))
+  integer hours=$(( total_seconds / 60 / 60 % 24 ))
+  integer minutes=$(( total_seconds / 60 % 60 ))
+  integer seconds=$(( total_seconds % 60 ))
+  float milliseconds=$(( total_seconds % 1 * 1000 ))
   (( days > 0 )) && print -n "${days}d "
   (( hours > 0 )) && print -n "${hours}h "
   (( minutes > 0 )) && print -n "${minutes}m "
-  print "${seconds}s"
+  (( seconds > 0 )) && print -n "${seconds}s "
+  printf "%0.0fms" $milliseconds
 }
 
 _git_info () {
@@ -64,12 +66,12 @@ _agnoster_precmd () {
   preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
   preprompt+=$(_virtualenv_info)
 
-  local startseconds=${_agnoster_preexec_timestamp:-$EPOCHSECONDS}
+  local startseconds=${_agnoster_preexec_timestamp:-$EPOCHREALTIME}
   integer elapsed
-  (( elapsed = EPOCHSECONDS - startseconds ))
+  (( elapsed = EPOCHREALTIME - startseconds ))
   _agnoster_preexec_timestamp=
 
-  if (( elapsed > 5 )) ; then
+  if (( elapsed > 1 )) ; then
     preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
   fi
 
@@ -83,7 +85,7 @@ _agnoster_precmd () {
 }
 
 _agnoster_preexec () {
-  _agnoster_preexec_timestamp=$EPOCHSECONDS
+  _agnoster_preexec_timestamp=$EPOCHREALTIME
 }
 
 () {
