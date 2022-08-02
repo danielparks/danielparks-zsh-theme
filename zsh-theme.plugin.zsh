@@ -16,10 +16,8 @@ _agnoster_human_time() {
 
   if (( total_seconds > 10 )) ; then
     printf "%0.0fs" $seconds
-  elif (( total_seconds > 1.5 )) ; then
-    printf "%0.1fs" $seconds
   else
-    printf "%0.2fs" $seconds
+    printf "%0.1fs" $seconds
   fi
 }
 
@@ -54,6 +52,11 @@ _virtualenv_info () {
 _agnoster_precmd () {
   local last_status=$?
 
+  local startseconds=${_agnoster_preexec_timestamp:-$EPOCHREALTIME}
+  float elapsed
+  (( elapsed = EPOCHREALTIME - startseconds ))
+  _agnoster_preexec_timestamp=
+
   # Build up string so that it all appears at once
   local preprompt=$'\n'
 
@@ -71,11 +74,6 @@ _agnoster_precmd () {
   preprompt+=' %F{white}%~%f' # directory
   preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
   preprompt+=$(_virtualenv_info)
-
-  local startseconds=${_agnoster_preexec_timestamp:-$EPOCHREALTIME}
-  float elapsed
-  (( elapsed = EPOCHREALTIME - startseconds ))
-  _agnoster_preexec_timestamp=
 
   if (( elapsed > 0.5 )) ; then
     preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
