@@ -77,7 +77,7 @@ _agnoster_precmd () {
   (( elapsed = EPOCHREALTIME - startseconds ))
   _agnoster_preexec_timestamp=
 
-  if (( elapsed > 1 )) ; then
+  if (( elapsed > 0.5 )) ; then
     preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
   fi
 
