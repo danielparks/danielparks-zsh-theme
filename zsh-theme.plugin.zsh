@@ -1,20 +1,26 @@
 # Original theme https://github.com/agnoster/agnoster-zsh-theme
 
 # turns (fractional) seconds into human readable time
-# 165392.3129 => 1d 21h 56m 32s 313ms
+# 165392.3129 => 1d 21h 56m 32s
 # Based on https://github.com/sindresorhus/pretty-time-zsh
 _agnoster_human_time() {
   float total_seconds=$1
   integer days=$(( total_seconds / 60 / 60 / 24 ))
   integer hours=$(( total_seconds / 60 / 60 % 24 ))
   integer minutes=$(( total_seconds / 60 % 60 ))
-  integer seconds=$(( total_seconds % 60 ))
-  float milliseconds=$(( total_seconds % 1 * 1000 ))
+  float seconds=$(( total_seconds % 60 ))
+
   (( days > 0 )) && print -n "${days}d "
   (( hours > 0 )) && print -n "${hours}h "
   (( minutes > 0 )) && print -n "${minutes}m "
-  (( seconds > 0 )) && print -n "${seconds}s "
-  printf "%0.0fms" $milliseconds
+
+  if (( total_seconds > 10 )) ; then
+    printf "%0.0fs" $seconds
+  elif (( total_seconds > 1.5 )) ; then
+    printf "%0.1fs" $seconds
+  else
+    printf "%0.2fs" $seconds
+  fi
 }
 
 _git_info () {
