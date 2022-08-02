@@ -75,7 +75,7 @@ _agnoster_precmd () {
   preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
   preprompt+=$(_virtualenv_info)
 
-  if (( elapsed > 0.5 )) ; then
+  if (( elapsed > 0.05 )) ; then
     preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
   fi
 
