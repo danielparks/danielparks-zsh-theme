@@ -18,9 +18,22 @@
 - Working directory
 - Wall time
 - Virtualenv
-- Wall time of last command if it took more than 5 seconds
+- Wall time of last command if it took more than 0.1 seconds
 - Root privileges (root❯)
 
 ## Compatibility
 
 To test if your terminal and font support, try `echo "⚙ ✔ ✘ ⚡"`.
+
+## License
+
+This was originally based on [agnoster-zsh-theme][]. I believe I have replaced
+enough of the code that it’s fair to say this is unencumbered by the original
+copyright. (I am not a lawyer; consult a lawyer if this matters to you.)
+
+That said, I disclaim all copyright on this work. It is provided without
+warranty. As much as it can be said to be licensed, it is licensed under the
+[Unlicense][], a copy of which is provided in [UNLICENSE](UNLICENSE).
+
+[agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
+[Unlicense]: https://unlicense.org
