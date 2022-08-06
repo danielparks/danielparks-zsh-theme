@@ -1,4 +1,4 @@
-# My fork of agnoster.zsh-theme
+# Daniel’s ZSH theme
 
 ~~~
 ✔ master ⚙ ~/work/simplepup 10:25:31 PM (simplepup)
