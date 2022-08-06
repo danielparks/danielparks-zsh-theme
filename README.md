@@ -1,5 +1,9 @@
 # Daniel’s ZSH theme
 
+<img src="screenshot.png" width="321" height="188" alt="" />
+
+### An older example as text
+
 ~~~
 ✔ master ⚙ ~/work/simplepup 10:25:31 PM (simplepup)
 ❯ ssh vm1.oxidized.org
