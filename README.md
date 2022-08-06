@@ -14,16 +14,16 @@
 
 ## What does it show?
 
-  - Success (✔) or failure (✘) of previous command
+  - Success (`✔`) or failure (`✘`) of previous command
   - If connected via SSH, user and host
   - Git status
     - Current branch, or sha in detached HEAD state
-    - Dirty working directory (⚙, color change)
+    - Dirty working directory (`⚙`, color change)
   - Working directory
   - Virtualenv
   - Current time when the prompt was generated
   - Wall time of last command if it took more than 0.1 seconds
-  - Root privileges (root❯)
+  - Root privileges (`root❯`)
 
 ## Compatibility
 
