@@ -1,9 +1,6 @@
-# Original theme https://github.com/agnoster/agnoster-zsh-theme
-
-# turns (fractional) seconds into human readable time
-# 165392.3129 => 1d 21h 56m 32s
+# Convert seconds into human readable time: 165392.3129 => 1d 21h 56m 32s
 # Based on https://github.com/sindresorhus/pretty-time-zsh
-_agnoster_human_time() {
+_danielparks_theme_humanize_interval () {
   float total_seconds=$1
   integer days=$(( total_seconds / 60 / 60 / 24 ))
   integer hours=$(( total_seconds / 60 / 60 % 24 ))
@@ -21,7 +18,7 @@ _agnoster_human_time() {
   fi
 }
 
-_git_info () {
+_danielparks_theme_git_info () {
   # This will fail outside of a git working tree
   local untracked_files git_dirty='' fg_color
 
@@ -45,17 +42,17 @@ _git_info () {
   fi
 }
 
-_virtualenv_info () {
+_danielparks_theme_virtualenv_info () {
   [ $VIRTUAL_ENV ] && print -n " (${VIRTUAL_ENV:t})"
 }
 
-_agnoster_precmd () {
+_danielparks_theme_precmd () {
   local last_status=$?
 
-  local startseconds=${_agnoster_preexec_timestamp:-$EPOCHREALTIME}
+  local startseconds=${_danielparks_theme_preexec_timestamp:-$EPOCHREALTIME}
   float elapsed
   (( elapsed = EPOCHREALTIME - startseconds ))
-  _agnoster_preexec_timestamp=
+  _danielparks_theme_preexec_timestamp=
 
   # Build up string so that it all appears at once
   local preprompt=$'\n'
@@ -70,13 +67,13 @@ _agnoster_precmd () {
     preprompt+=' %F{yellow}%n@%m%f' # user@host
   fi
 
-  preprompt+=$(_git_info)
+  preprompt+=$(_danielparks_theme_git_info)
   preprompt+=' %F{white}%~%f' # directory
   preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
-  preprompt+=$(_virtualenv_info)
+  preprompt+=$(_danielparks_theme_virtualenv_info)
 
   if (( elapsed > 0.05 )) ; then
-    preprompt+=" %F{yellow}$(_agnoster_human_time $elapsed)%f"
+    preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
   fi
 
   print -P $preprompt
@@ -88,16 +85,16 @@ _agnoster_precmd () {
   fi
 }
 
-_agnoster_preexec () {
-  _agnoster_preexec_timestamp=$EPOCHREALTIME
+_danielparks_theme_preexec () {
+  _danielparks_theme_preexec_timestamp=$EPOCHREALTIME
 }
 
 () {
   zmodload zsh/datetime
   autoload -Uz add-zsh-hook
 
-  add-zsh-hook precmd _agnoster_precmd
-  add-zsh-hook preexec _agnoster_preexec
+  add-zsh-hook precmd _danielparks_theme_precmd
+  add-zsh-hook preexec _danielparks_theme_preexec
 
   PROMPT='%(!.%F{yellow}root.)%1{❯%}%f%k%b '
 }
