@@ -20,7 +20,7 @@ copy and paste.
 
   - Success (`✔`) or exist code (`=1`) of previous command
   - If connected via SSH, user and host
-  - Git status
+  - Git status using [git-summary][] (if available)
     - Current branch, or sha in detached HEAD state
     - Dirty working directory (`⚙`, color change)
   - Working directory
@@ -29,6 +29,11 @@ copy and paste.
   - Wall time of last command if it took more than 0.1 seconds
   - Root privileges (`root❯`)
   - Shows level of shell (`$SHLVL`) by repeating `❯`
+
+## Configuration
+
+This warns if [git-summary][] is not installed. To suppress the message, set
+`IGNORE_GIT_SUMMARY=1` before loading this plugin.
 
 ## Compatibility
 
@@ -46,3 +51,4 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 
 [agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
 [Unlicense]: https://unlicense.org
+[git-summary]: https://github.com/danielparks/git-summary

@@ -134,4 +134,10 @@ _danielparks_theme_preexec () {
 
   # 'root' if running as root. As many ❯ as $SHLVL.
   PROMPT="%(!.%F{yellow}root.)%{${(l:$SHLVL::❯:)}%}%f%k%b "
+
+  if [[ -z $IGNORE_GIT_SUMMARY ]] && ! command -v git-summary &>/dev/null ; then
+    print -P '%B%F{red}git-summary not installed. Run `cargo install git-summary`.%f%b' >&2
+    print 'See: https://github.com/danielparks/git-summary' >&2
+    print 'Set IGNORE_GIT_SUMMARY=1 to suppress this message.' >&2
+  fi
 }
