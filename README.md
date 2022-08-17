@@ -22,7 +22,16 @@ copy and paste.
   - If connected via SSH, user and host
   - Git status using [git-summary][] (if available)
     - Current branch, or sha in detached HEAD state
-    - Dirty working directory (`⚙`, color change)
+    - Icons and color to indicate various states:
+      | Icon | Color  | Meaning                            |
+      |------|--------|------------------------------------|
+      |      | Green  | clean tree; everything committed   |
+      | `●`  | Yellow | only staged changes                |
+      | `●`  | Red    | staged changes and untracked files |
+      | `⦿`  | Red    | staged and unstaged changes        |
+      | `○`  | Red    | only unstaged changes              |
+      |      | Red    | only untracked files               |
+      | `⚠`  |        | merge conflict present             |
   - Working directory
   - Virtualenv
   - Current time when the prompt was generated
