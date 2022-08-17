@@ -18,27 +18,89 @@ _danielparks_theme_humanize_interval () {
   fi
 }
 
+_danielparks_theme_git_info_fallback () {
+  local gitstatus icons='' fg_color=green
+
+  # FIXME I don't think this works correctly while resolving a merge
+  gitstatus=$(git status --porcelain=1 2>/dev/null) || return 0
+
+  if echo $gitstatus | grep --quiet '^.[^ ?!]' ; then
+    # Unstaged changes
+    if echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+      # Staged changes
+      icons+=' %1{⦿%}'
+    else
+      icons+=' %1{○%}'
+    fi
+    fg_color=red
+  elif echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+    # Staged changes
+    icons+=' %1{●%}'
+    fg_color=yellow
+  fi
+
+  if echo $gitstatus | fgrep --quiet '??' ; then
+    # Untracked changes
+    fg_color=red
+  fi
+
+  ref=$(git symbolic-ref --short HEAD 2>/dev/null) ||
+    ref=$(git show-ref --head -s --abbrev HEAD 2>/dev/null | head -n1)
+  print -Pn " %F{$fg_color}${ref}${icons}%f"
+}
+
 _danielparks_theme_git_info () {
-  # This will fail outside of a git working tree
-  local untracked_files git_dirty='' fg_color
+  eval $(git-summary 2>/dev/null)
 
-  untracked_files=$(git ls-files --other --exclude-standard 2>/dev/null)
+  if [[ -z $repo_state ]] ; then
+    # git-summary should always output repo_state
+    _danielparks_theme_git_info_fallback
+    return 0
+  fi
 
-  if [ $? = 0 ] ; then
-    fg_color=green
+  if [[ $repo_state == "NotFound" ]] ; then
+    return 0
+  fi
 
-    if ! command git diff --quiet --ignore-submodules HEAD &>/dev/null ; then
-      git_dirty=' %1{⚙%}'
-      fg_color=yellow
+  local icons='' fg_color=green
+  if [[ $unstaged_count > 0 ]] ; then
+    if [[ $staged_count > 0 ]] ; then
+      icons+=' %1{⦿%}'
+    else
+      icons+=' %1{○%}'
     fi
+    fg_color=red
+  elif [[ $staged_count > 0 ]] ; then
+    icons+=' %1{●%}'
+    fg_color=yellow
+  fi
 
-    if [ ! -z "$untracked_files" ] ; then
-      fg_color=red
-    fi
+  if [[ $conflicted_count > 0 ]] ; then
+    icons+=' %1{⚠️%} '
+  fi
 
-    ref=$(git symbolic-ref HEAD 2>/dev/null) ||
-      ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2>/dev/null)"
-    print -Pn " %F{$fg_color}${ref/refs\/heads\//}${git_dirty}%f"
+  if [[ $untracked_count > 0 ]] ; then
+    fg_color=red
+  fi
+
+  local ref=$head_ref1_short
+  if [[ -z $ref ]] ; then
+    ref=${head_hash:0:8}
+  fi
+
+  print -Pn " %F{$fg_color}${ref}${icons}%f"
+
+  local fg_color=yellow
+  if [[ $head_ahead > 0 && $head_behind > 0 ]] ; then
+    fg_color=red
+  fi
+
+  if [[ $head_ahead > 0 ]] ; then
+    print -Pn " %F{${fg_color}}%1{↑%}${head_ahead}%f"
+  fi
+
+  if [[ $head_behind > 0 ]] ; then
+    print -Pn " %F{${fg_color}}%1{↓%}${head_behind}%f"
   fi
 }
 
@@ -63,7 +125,7 @@ _danielparks_theme_precmd () {
     preprompt+="%f%k%B%F{red}=${last_status}%f"
   fi
 
-  if [ $SSH_CONNECTION ] ; then
+  if [[ $SSH_CONNECTION ]] ; then
     preprompt+=' %F{yellow}%n@%m%f' # user@host
   fi
 
@@ -78,7 +140,7 @@ _danielparks_theme_precmd () {
 
   print -P $preprompt
 
-  if [ $SSH_CONNECTION ] ; then
+  if [[ $SSH_CONNECTION ]] ; then
     print -Pn "\e]2;%n@%m %~\a"
   else
     print -Pn "\e]2;%~\a"
@@ -97,5 +159,12 @@ _danielparks_theme_preexec () {
   add-zsh-hook preexec _danielparks_theme_preexec
 
   # 'root' if running as root. As many ❯ as $SHLVL.
-  PROMPT="%(!.%F{yellow}root.)%{${(l:$SHLVL::❯:)}%}%f%k%b "
+  local prompt_chars=$(repeat $SHLVL print -Pn '%1{❯%}')
+  PROMPT="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
+
+  if [[ -z $IGNORE_GIT_SUMMARY ]] && ! command -v git-summary &>/dev/null ; then
+    print -P '%B%F{red}git-summary not installed. Run `cargo install git-summary`.%f%b' >&2
+    print 'See: https://github.com/danielparks/git-summary' >&2
+    print 'Set IGNORE_GIT_SUMMARY=1 to suppress this message.' >&2
+  fi
 }
