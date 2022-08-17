@@ -19,71 +19,76 @@ _danielparks_theme_humanize_interval () {
 }
 
 _danielparks_theme_git_info_fallback () {
+  local gitstatus icons='' fg_color=green
+
   # FIXME I don't think this works correctly while resolving a merge
-  local gitstatus=$(git status --porcelain=1 2>/dev/null | cut -c1,2)
-  if [[ $? = 0 ]] ; then
-    local git_dirty='' fg_color=green
+  gitstatus=$(git status --porcelain=1 2>/dev/null) || return 0
 
-    if echo $gitstatus | grep --quiet '^.[^ ?!]' ; then
-      # Unstaged changes
-      if echo $gitstatus | grep --quiet '^[^ ?!]' ; then
-        # Staged changes
-        git_dirty+=' %1{⦿%}'
-      else
-        git_dirty+=' %1{○%}'
-      fi
-      fg_color=red
-    elif echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+  if echo $gitstatus | grep --quiet '^.[^ ?!]' ; then
+    # Unstaged changes
+    if echo $gitstatus | grep --quiet '^[^ ?!]' ; then
       # Staged changes
-      git_dirty+=' %1{●%}'
-      fg_color=yellow
+      icons+=' %1{⦿%}'
+    else
+      icons+=' %1{○%}'
     fi
-
-    if echo $gitstatus | fgrep --quiet '??' ; then
-      # Untracked changes
-      fg_color=red
-    fi
-
-    ref=$(git symbolic-ref --short HEAD 2>/dev/null) ||
-      ref=$(git show-ref --head -s --abbrev HEAD | head -n1 2>/dev/null)
-    print -Pn " %F{$fg_color}${ref}${git_dirty}%f"
+    fg_color=red
+  elif echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+    # Staged changes
+    icons+=' %1{●%}'
+    fg_color=yellow
   fi
+
+  if echo $gitstatus | fgrep --quiet '??' ; then
+    # Untracked changes
+    fg_color=red
+  fi
+
+  ref=$(git symbolic-ref --short HEAD 2>/dev/null) ||
+    ref=$(git show-ref --head -s --abbrev HEAD 2>/dev/null | head -n1)
+  print -Pn " %F{$fg_color}${ref}${icons}%f"
 }
 
 _danielparks_theme_git_info () {
-  if summary=$(git-summary 2>/dev/null) ; then
-    eval $summary
+  eval $(git-summary 2>/dev/null)
 
-    local git_dirty='' fg_color=green
-    if [[ $unstaged_count > 0 ]] ; then
-      if [[ $staged_count > 0 ]] ; then
-        git_dirty+=' %1{⦿%}'
-      else
-        git_dirty+=' %1{○%}'
-      fi
-      fg_color=red
-    elif [[ $staged_count > 0 ]] ; then
-      git_dirty+=' %1{●%}'
-      fg_color=yellow
-    fi
-
-    if [[ $conflicted_count > 0 ]] ; then
-      git_dirty+=' %1{⚠️%} '
-    fi
-
-    if [[ $untracked_count > 0 ]] ; then
-      fg_color=red
-    fi
-
-    local ref=$head_ref1_short
-    if [[ -z $ref ]] ; then
-      ref=${head_hash:0:8}
-    fi
-
-    print -Pn " %F{$fg_color}${ref}${git_dirty}%f"
-  else
+  if [[ -z $repo_state ]] ; then
+    # git-summary should always output repo_state
     _danielparks_theme_git_info_fallback
+    return 0
   fi
+
+  if [[ $repo_state == "NotFound" ]] ; then
+    return 0
+  fi
+
+  local icons='' fg_color=green
+  if [[ $unstaged_count > 0 ]] ; then
+    if [[ $staged_count > 0 ]] ; then
+      icons+=' %1{⦿%}'
+    else
+      icons+=' %1{○%}'
+    fi
+    fg_color=red
+  elif [[ $staged_count > 0 ]] ; then
+    icons+=' %1{●%}'
+    fg_color=yellow
+  fi
+
+  if [[ $conflicted_count > 0 ]] ; then
+    icons+=' %1{⚠️%} '
+  fi
+
+  if [[ $untracked_count > 0 ]] ; then
+    fg_color=red
+  fi
+
+  local ref=$head_ref1_short
+  if [[ -z $ref ]] ; then
+    ref=${head_hash:0:8}
+  fi
+
+  print -Pn " %F{$fg_color}${ref}${icons}%f"
 }
 
 _danielparks_theme_virtualenv_info () {
