@@ -90,12 +90,17 @@ _danielparks_theme_git_info () {
 
   print -Pn " %F{$fg_color}${ref}${icons}%f"
 
+  local fg_color=yellow
+  if [[ $head_ahead > 0 && $head_behind > 0 ]] ; then
+    fg_color=red
+  fi
+
   if [[ $head_ahead > 0 ]] ; then
-    print -Pn " %F{yellow}%1{↑%}${head_ahead}%f"
+    print -Pn " %F{${fg_color}}%1{↑%}${head_ahead}%f"
   fi
 
   if [[ $head_behind > 0 ]] ; then
-    print -Pn " %F{yellow}%1{↓%}${head_behind}%f"
+    print -Pn " %F{${fg_color}}%1{↓%}${head_behind}%f"
   fi
 }
 
