@@ -24,6 +24,7 @@
   - Current time when the prompt was generated
   - Wall time of last command if it took more than 0.1 seconds
   - Root privileges (`root❯`)
+  - Shows level of shell (`$SHLVL`) by repeating `❯`
 
 ## Compatibility
 

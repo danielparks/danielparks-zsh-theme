@@ -96,5 +96,6 @@ _danielparks_theme_preexec () {
   add-zsh-hook precmd _danielparks_theme_precmd
   add-zsh-hook preexec _danielparks_theme_preexec
 
-  PROMPT='%(!.%F{yellow}root.)%1{❯%}%f%k%b '
+  # 'root' if running as root. As many ❯ as $SHLVL.
+  PROMPT="%(!.%F{yellow}root.)%{${(l:$SHLVL::❯:)}%}%f%k%b "
 }
