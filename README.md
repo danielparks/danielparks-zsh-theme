@@ -46,7 +46,7 @@ This warns if [git-summary][] is not installed. To suppress the message, set
 
 ## Compatibility
 
-To test if your terminal and font support, try `echo "⚙ ✔ ✘ ⚡"`.
+To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔"`.
 
 ## License
 
