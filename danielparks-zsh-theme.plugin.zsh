@@ -24,7 +24,7 @@ _danielparks_theme_git_info_fallback () {
 
   untracked_files=$(git ls-files --other --exclude-standard 2>/dev/null)
 
-  if [ $? = 0 ] ; then
+  if [[ $? = 0 ]] ; then
     fg_color=green
 
     if ! command git diff --quiet --ignore-submodules HEAD &>/dev/null ; then
@@ -99,7 +99,7 @@ _danielparks_theme_precmd () {
     preprompt+="%f%k%B%F{red}=${last_status}%f"
   fi
 
-  if [ $SSH_CONNECTION ] ; then
+  if [[ $SSH_CONNECTION ]] ; then
     preprompt+=' %F{yellow}%n@%m%f' # user@host
   fi
 
@@ -114,7 +114,7 @@ _danielparks_theme_precmd () {
 
   print -P $preprompt
 
-  if [ $SSH_CONNECTION ] ; then
+  if [[ $SSH_CONNECTION ]] ; then
     print -Pn "\e]2;%n@%m %~\a"
   else
     print -Pn "\e]2;%~\a"
