@@ -19,26 +19,34 @@ _danielparks_theme_humanize_interval () {
 }
 
 _danielparks_theme_git_info_fallback () {
-  # This will fail outside of a git working tree
-  local untracked_files git_dirty='' fg_color
-
-  untracked_files=$(git ls-files --other --exclude-standard 2>/dev/null)
-
+  # FIXME I don't think this works correctly while resolving a merge
+  local gitstatus=$(git status --porcelain=1 2>/dev/null | cut -c1,2)
   if [[ $? = 0 ]] ; then
-    fg_color=green
+    local git_dirty='' fg_color=green
 
-    if ! command git diff --quiet --ignore-submodules HEAD &>/dev/null ; then
-      git_dirty=' %1{⚙%}'
+    if echo $gitstatus | grep --quiet '^.[^ ?!]' ; then
+      # Unstaged changes
+      if echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+        # Staged changes
+        git_dirty+=' %1{⦿%}'
+      else
+        git_dirty+=' %1{○%}'
+      fi
+      fg_color=red
+    elif echo $gitstatus | grep --quiet '^[^ ?!]' ; then
+      # Staged changes
+      git_dirty+=' %1{●%}'
       fg_color=yellow
     fi
 
-    if [ ! -z "$untracked_files" ] ; then
+    if echo $gitstatus | fgrep --quiet '??' ; then
+      # Untracked changes
       fg_color=red
     fi
 
-    ref=$(git symbolic-ref HEAD 2>/dev/null) ||
-      ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2>/dev/null)"
-    print -Pn " %F{$fg_color}${ref/refs\/heads\//}${git_dirty}%f"
+    ref=$(git symbolic-ref --short HEAD 2>/dev/null) ||
+      ref=$(git show-ref --head -s --abbrev HEAD | head -n1 2>/dev/null)
+    print -Pn " %F{$fg_color}${ref}${git_dirty}%f"
   fi
 }
 
