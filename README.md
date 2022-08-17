@@ -18,10 +18,10 @@ copy and paste.
 
 ## What does it show?
 
-  - Success (`✔`) or exist code (`=1`) of previous command
+  - Success (`✔`) or exit code (`=1`) of last command
   - If connected via SSH, user and host
   - Git status using [git-summary][] (if available)
-    - Current branch, or sha in detached HEAD state
+    - Current branch, or SHA in detached HEAD state
     - Icons and color to indicate various states:
       | Icon | Color  | Meaning                            |
       |------|--------|------------------------------------|
@@ -37,7 +37,7 @@ copy and paste.
   - Current time when the prompt was generated
   - Wall time of last command if it took more than 0.1 seconds
   - Root privileges (`root❯`)
-  - Shows level of shell (`$SHLVL`) by repeating `❯`
+  - Level of shell (`$SHLVL`) by repeating `❯`
 
 ## Configuration
 
