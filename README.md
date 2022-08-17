@@ -4,8 +4,8 @@ This is a simple two line (well, three if you count the blank) prompt for ZSH.
 It is fast allows for plenty of space for commands. Additionally, it is easy to
 copy and paste.
 
-For speed, it uses [git-summary][] if available. It will warn you if it is not
-present, but that can be disabled with an environment variable.
+For speed, it uses [git-status-vars][] if available. It will warn you if it is
+not present, but that can be disabled with an environment variable.
 
 <img src="screenshot.png" width="525" height="484" alt="" />
 
@@ -15,7 +15,7 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
   - Success (`✔`) or exit code (`=1`) of last command
   - If connected via SSH, user and host
-  - Git status using [git-summary][] (if available)
+  - Git status using [git-status-vars][] (if available)
     - Current branch, or SHA in detached HEAD state
     - Icons and color to indicate various states:
       | Icon | Color  | Meaning                            |
@@ -38,7 +38,7 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
 ## Configuration
 
-This warns if [git-summary][] is not installed. To suppress the message, set
+This warns if [git-status-vars][] is not installed. To suppress the message, set
 `IGNORE_GIT_SUMMARY=1` before loading this plugin.
 
 ## Compatibility
@@ -55,7 +55,7 @@ That said, I disclaim all copyright on this work. It is provided without
 warranty. As much as it can be said to be licensed, it is licensed under the
 [Unlicense][], a copy of which is provided in [UNLICENSE](UNLICENSE).
 
-[git-summary]: https://github.com/danielparks/git-summary
+[git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
 [agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
 [Unlicense]: https://unlicense.org

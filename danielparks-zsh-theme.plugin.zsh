@@ -50,10 +50,10 @@ _danielparks_theme_git_info_fallback () {
 }
 
 _danielparks_theme_git_info () {
-  eval $(git-summary 2>/dev/null)
+  eval $(git-status-vars 2>/dev/null)
 
   if [[ -z $repo_state ]] ; then
-    # git-summary should always output repo_state
+    # git-status-vars should always output repo_state
     _danielparks_theme_git_info_fallback
     return 0
   fi
@@ -162,9 +162,9 @@ _danielparks_theme_preexec () {
   local prompt_chars=$(repeat $SHLVL print -Pn '%1{❯%}')
   PROMPT="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
 
-  if [[ -z $IGNORE_GIT_SUMMARY ]] && ! command -v git-summary &>/dev/null ; then
-    print -P '%B%F{red}git-summary not installed. Run `cargo install git-summary`.%f%b' >&2
-    print 'See: https://github.com/danielparks/git-summary' >&2
+  if [[ -z $IGNORE_GIT_SUMMARY ]] && ! command -v git-status-vars &>/dev/null ; then
+    print -P '%B%F{red}git-status-vars not installed. Run `cargo install git-status-vars`.%f%b' >&2
+    print 'See: https://github.com/danielparks/git-status-vars' >&2
     print 'Set IGNORE_GIT_SUMMARY=1 to suppress this message.' >&2
   fi
 }
