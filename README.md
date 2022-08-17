@@ -4,17 +4,12 @@ This is a simple two line (well, three if you count the blank) prompt for ZSH.
 It is fast allows for plenty of space for commands. Additionally, it is easy to
 copy and paste.
 
-<img src="screenshot.png" width="321" height="188" alt="" />
+For speed, it uses [git-summary][] if available. It will warn you if it is not
+present, but that can be disabled with an environment variable.
 
-### An older example as text
+<img src="screenshot.png" width="525" height="484" alt="" />
 
-~~~
-✔ master ⚙ ~/work/simplepup 10:25:31 PM (simplepup)
-❯ ssh vm1.oxidized.org
-
-✔ daniel@vm1 master ~ 10:25:40 PM
-❯
-~~~
+See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
 ## What does it show?
 
@@ -48,7 +43,7 @@ This warns if [git-summary][] is not installed. To suppress the message, set
 
 ## Compatibility
 
-To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔"`.
+To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔ ↑ ↓ ❯"`.
 
 ## License
 
@@ -60,6 +55,7 @@ That said, I disclaim all copyright on this work. It is provided without
 warranty. As much as it can be said to be licensed, it is licensed under the
 [Unlicense][], a copy of which is provided in [UNLICENSE](UNLICENSE).
 
+[git-summary]: https://github.com/danielparks/git-summary
+[EXAMPLE.md]: EXAMPLE.md
 [agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
 [Unlicense]: https://unlicense.org
-[git-summary]: https://github.com/danielparks/git-summary
