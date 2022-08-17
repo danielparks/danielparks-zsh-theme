@@ -1,5 +1,9 @@
 # Daniel’s ZSH theme
 
+This is a simple two line (well, three if you count the blank) prompt for ZSH.
+It is fast allows for plenty of space for commands. Additionally, it is easy to
+copy and paste.
+
 <img src="screenshot.png" width="321" height="188" alt="" />
 
 ### An older example as text
