@@ -60,7 +60,7 @@ _danielparks_theme_precmd () {
   if [ $last_status = 0 ] ; then
     preprompt+='%f%k%B%F{green}%1{✔%}%f'
   else
-    preprompt+='%f%k%B%F{red}%1{✘%}%f'
+    preprompt+="%f%k%B%F{red}=${last_status}%f"
   fi
 
   if [ $SSH_CONNECTION ] ; then

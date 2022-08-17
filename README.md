@@ -14,7 +14,7 @@
 
 ## What does it show?
 
-  - Success (`✔`) or failure (`✘`) of previous command
+  - Success (`✔`) or exist code (`=1`) of previous command
   - If connected via SSH, user and host
   - Git status
     - Current branch, or sha in detached HEAD state
