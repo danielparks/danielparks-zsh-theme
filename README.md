@@ -31,7 +31,7 @@ copy and paste.
       | `⦿`  | Red    | staged and unstaged changes        |
       | `○`  | Red    | only unstaged changes              |
       |      | Red    | only untracked files               |
-      | `⚠`  |        | merge conflict present             |
+      | `⚠️`  |        | merge conflict present             |
   - Working directory
   - Virtualenv
   - Current time when the prompt was generated
