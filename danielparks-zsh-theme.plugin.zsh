@@ -91,11 +91,11 @@ _danielparks_theme_git_info () {
   print -Pn " %F{$fg_color}${ref}${icons}%f"
 
   if [[ $head_ahead > 0 ]] ; then
-    print -Pn " %F{yellow}%{↑%}${head_ahead}%f"
+    print -Pn " %F{yellow}%1{↑%}${head_ahead}%f"
   fi
 
   if [[ $head_behind > 0 ]] ; then
-    print -Pn " %F{yellow}%{↓%}${head_behind}%f"
+    print -Pn " %F{yellow}%1{↓%}${head_behind}%f"
   fi
 }
 
@@ -154,7 +154,8 @@ _danielparks_theme_preexec () {
   add-zsh-hook preexec _danielparks_theme_preexec
 
   # 'root' if running as root. As many ❯ as $SHLVL.
-  PROMPT="%(!.%F{yellow}root.)%{${(l:$SHLVL::❯:)}%}%f%k%b "
+  local prompt_chars=$(repeat $SHLVL print -Pn '%1{❯%}')
+  PROMPT="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
 
   if [[ -z $IGNORE_GIT_SUMMARY ]] && ! command -v git-summary &>/dev/null ; then
     print -P '%B%F{red}git-summary not installed. Run `cargo install git-summary`.%f%b' >&2
