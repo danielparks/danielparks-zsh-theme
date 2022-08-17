@@ -43,7 +43,7 @@ _danielparks_theme_git_info_fallback () {
 }
 
 _danielparks_theme_git_info () {
-  if summary=$(git_summary 2>/dev/null) ; then
+  if summary=$(git-summary 2>/dev/null) ; then
     eval $summary
 
     local git_dirty='' fg_color=green
