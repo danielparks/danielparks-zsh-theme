@@ -32,6 +32,8 @@ copy and paste.
       | `○`  | Red    | only unstaged changes              |
       |      | Red    | only untracked files               |
       | `⚠️`  |        | merge conflict present             |
+      | `↑N` |        | N commits ahead of upstream        |
+      | `↓N` |        | N commits behind upstream          |
   - Working directory
   - Virtualenv
   - Current time when the prompt was generated

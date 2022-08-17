@@ -89,6 +89,14 @@ _danielparks_theme_git_info () {
   fi
 
   print -Pn " %F{$fg_color}${ref}${icons}%f"
+
+  if [[ $head_ahead > 0 ]] ; then
+    print -Pn " %F{yellow}%{↑%}${head_ahead}%f"
+  fi
+
+  if [[ $head_behind > 0 ]] ; then
+    print -Pn " %F{yellow}%{↓%}${head_behind}%f"
+  fi
 }
 
 _danielparks_theme_virtualenv_info () {
