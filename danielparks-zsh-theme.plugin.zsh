@@ -18,7 +18,7 @@ _danielparks_theme_humanize_interval () {
   fi
 }
 
-_danielparks_theme_git_info () {
+_danielparks_theme_git_info_fallback () {
   # This will fail outside of a git working tree
   local untracked_files git_dirty='' fg_color
 
@@ -39,6 +39,42 @@ _danielparks_theme_git_info () {
     ref=$(git symbolic-ref HEAD 2>/dev/null) ||
       ref="$(git show-ref --head -s --abbrev HEAD |head -n1 2>/dev/null)"
     print -Pn " %F{$fg_color}${ref/refs\/heads\//}${git_dirty}%f"
+  fi
+}
+
+_danielparks_theme_git_info () {
+  if summary=$(git_summary 2>/dev/null) ; then
+    eval $summary
+
+    local git_dirty='' fg_color=green
+    if [[ $unstaged_count > 0 ]] ; then
+      if [[ $staged_count > 0 ]] ; then
+        git_dirty+=' %1{⦿%}'
+      else
+        git_dirty+=' %1{○%}'
+      fi
+      fg_color=red
+    elif [[ $staged_count > 0 ]] ; then
+      git_dirty+=' %1{●%}'
+      fg_color=yellow
+    fi
+
+    if [[ $conflicted_count > 0 ]] ; then
+      git_dirty+=' %1{⚠️%} '
+    fi
+
+    if [[ $untracked_count > 0 ]] ; then
+      fg_color=red
+    fi
+
+    local ref=$head_ref1_short
+    if [[ -z $ref ]] ; then
+      ref=${head_hash:0:8}
+    fi
+
+    print -Pn " %F{$fg_color}${ref}${git_dirty}%f"
+  else
+    _danielparks_theme_git_info_fallback
   fi
 }
 
