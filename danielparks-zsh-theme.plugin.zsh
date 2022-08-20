@@ -105,7 +105,7 @@ _danielparks_theme_git_info () {
 }
 
 _danielparks_theme_virtualenv_info () {
-  [ $VIRTUAL_ENV ] && print -n " (${VIRTUAL_ENV:t})"
+  [ $VIRTUAL_ENV ] && print -n " (${VIRTUAL_ENV:t})" || true
 }
 
 _danielparks_theme_precmd () {
