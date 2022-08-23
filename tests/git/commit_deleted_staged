@@ -1,0 +1,4 @@
+create_cd_repo commit_deleted_staged
+change_files_then_commit a b
+git rm --quiet a
+print_prompt

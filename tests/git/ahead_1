@@ -1,0 +1,5 @@
+create_cd_repo ahead_1_upstream
+change_files_then_commit a b
+clone_cd_repo ahead_1_upstream ahead_1
+change_files_then_commit a
+print_prompt

@@ -1,0 +1,4 @@
+create_cd_repo commit_modified
+change_files_then_commit a b
+date >a
+print_prompt

@@ -1,0 +1,4 @@
+create_cd_repo empty_dirty_add
+touch added untracked
+git add added
+print_prompt

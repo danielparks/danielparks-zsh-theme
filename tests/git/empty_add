@@ -1,0 +1,4 @@
+create_cd_repo empty_add
+touch added
+git add added
+print_prompt
