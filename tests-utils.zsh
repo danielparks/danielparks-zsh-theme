@@ -6,6 +6,17 @@ fail () {
 	exit ${2:-1}
 }
 
+check_arguments () {
+	local func=$1
+	local expected=$2
+	shift ; shift
+	if [[ $# != $expected ]] ; then
+		print "$func expected $expected arguments but got $#:" >&2
+		printf "  %s\n" ${(q+)@} >&2
+		exit 1
+	fi
+}
+
 source danielparks-zsh-theme.plugin.zsh
 print_prompt () {
 	(
@@ -15,24 +26,24 @@ print_prompt () {
 }
 
 mkdir_cd () {
-	[[ $# > 1 ]] && fail "Expected 1 argument to mkdir_cd, got: $*"
+	check_arguments mkdir_cd 1 "$@"
 	mkdir -p $1
 	cd $1
 }
 
 cd_repo () {
-	[[ $# > 1 ]] && fail "Expected 1 argument to cd_repo, got: $*"
+	check_arguments cd_repo 1 "$@"
 	cd ~/$1
 }
 
 create_cd_repo () {
-	[[ $# > 1 ]] && fail "Expected 1 argument to create_cd_repo, got: $*"
+	check_arguments create_cd_repo 1 "$@"
 	mkdir_cd ~/"$1"
 	git init --quiet
 }
 
 clone_cd_repo () {
-	[[ $# != 2 ]] && fail "Expected 2 arguments to clone_cd_repo, got: $*"
+	check_arguments clone_cd_repo 2 "$@"
 	cd
 	git clone --quiet "$1" "$2"
 	cd "$2"
