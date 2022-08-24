@@ -1,10 +1,11 @@
 # Daniel’s ZSH theme
 
 This is a simple two line (well, three if you count the blank) prompt for ZSH.
-It is fast allows for plenty of space for commands. Additionally, it is easy to
-copy and paste.
+It is fast, allows for plenty of space to type commands, and looks good when
+copied and pasted.
 
-For speed, it uses [git-status-vars][] if available. It will warn you if it is
+If [git-status-vars][] is available, it will use it to get better information
+about git repos, as well as a slight edge in speed. It will warn you if it is
 not present, but that can be disabled with an environment variable.
 
 <img src="screenshot.png" width="525" height="484" alt="" />
@@ -44,6 +45,12 @@ This warns if [git-status-vars][] is not installed. To suppress the message, set
 ## Compatibility
 
 To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔ ↑ ↓ ❯"`.
+
+## Testing
+
+This comes with a simple zsh test harness. You can run tests with
+`./run-tests.zsh`, and if you want to see what prompts looks like in various
+situations, you can run `./run-tests.zsh --show-prompt`.
 
 ## License
 
