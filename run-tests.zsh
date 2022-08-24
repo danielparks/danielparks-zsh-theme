@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+setopt err_exit pipe_fail
+
 main () {
 	# Optionally accept paths to tests to run. Directories will be recursed into.
 	local tests=($@)
