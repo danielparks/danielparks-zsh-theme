@@ -5,11 +5,15 @@ setopt err_exit pipe_fail
 show_prompt=
 
 main () {
-	local o_help
-	zparseopts -D -K -- -show-prompt=show_prompt -help=o_help h=o_help &>/dev/null
+	local help keep
+	zparseopts -D -K -- \
+		-show-prompt=show_prompt \
+		-keep=keep \
+		-help=help \
+		h=help &>/dev/null
 
-	if [[ $? != 0 || -n $o_help ]] ; then
-		echo "Usage: run-tests.zsh [--show-prompt] [test-files]" >&2
+	if [[ $? != 0 || -n $help ]] ; then
+		echo "Usage: run-tests.zsh [--show-prompt] [--keep] [test-files]" >&2
 		exit 1
 	fi
 
@@ -22,10 +26,18 @@ main () {
 	local source_root=$(pwd)
 	local working_root=$(mktemp -d)
 
+	if [[ $keep ]] ; then
+		echo "Running tests in $working_root"
+	fi
+
 	IFS=$'\n'
 	for f in $(find $tests -type f) ; do
 		run_test $source_root $working_root $f
 	done
+
+	if [[ ! $keep ]] ; then
+		rm -rf $working_root
+	fi
 }
 
 run_test () {
