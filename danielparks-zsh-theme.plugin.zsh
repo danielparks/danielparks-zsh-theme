@@ -50,6 +50,12 @@ _danielparks_theme_git_info_fallback () {
 }
 
 _danielparks_theme_git_info () {
+	# Optionally output without prompt expansion
+	local P=P
+	if [[ $1 == "escape" ]] ; then
+		P=
+	fi
+
 	eval $(git-status-vars 2>/dev/null)
 
 	if [[ -z $repo_state ]] ; then
@@ -88,7 +94,7 @@ _danielparks_theme_git_info () {
 		ref=${head_hash:0:8}
 	fi
 
-	print -Pn " %F{$fg_color}${ref}${icons}%f"
+	print -n$P " %F{$fg_color}${ref}${icons}%f"
 
 	local fg_color=yellow
 	if [[ $head_ahead > 0 && $head_behind > 0 ]] ; then
@@ -96,11 +102,11 @@ _danielparks_theme_git_info () {
 	fi
 
 	if [[ $head_ahead > 0 ]] ; then
-		print -Pn " %F{${fg_color}}%1{↑%}${head_ahead}%f"
+		print -n$P " %F{${fg_color}}%1{↑%}${head_ahead}%f"
 	fi
 
 	if [[ $head_behind > 0 ]] ; then
-		print -Pn " %F{${fg_color}}%1{↓%}${head_behind}%f"
+		print -n$P " %F{${fg_color}}%1{↓%}${head_behind}%f"
 	fi
 }
 
