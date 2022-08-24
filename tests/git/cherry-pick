@@ -1,0 +1,9 @@
+create_cd_repo cherry-pick
+change_files_then_commit a b
+git checkout --quiet -b branch
+change_files_then_commit a
+git switch --quiet master
+change_files_then_commit a
+git cherry-pick branch &>/dev/null || true
+
+assert_git_info_eq ' %F{green}master %F{red}(cherry pick)%f %1{⚠️%} %f'

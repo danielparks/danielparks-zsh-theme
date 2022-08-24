@@ -94,6 +94,11 @@ _danielparks_theme_git_info () {
 		ref=${head_hash:0:8}
 	fi
 
+	if [[ $repo_state != "Clean" ]] ; then
+		local snake=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
+		ref+=" %F{red}(${snake:l})%f"
+	fi
+
 	print -n$P " %F{$fg_color}${ref}${icons}%f"
 
 	local fg_color=yellow
