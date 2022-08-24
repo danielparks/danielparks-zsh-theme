@@ -1,7 +1,7 @@
-create_cd_repo conflict_upstream
+create_cd_repo upstream
 change_files_then_commit a b
-clone_cd_repo conflict_upstream conflict
-cd_repo conflict_upstream
+clone_cd_repo upstream conflict
+cd_repo upstream
 change_files_then_commit a
 cd_repo conflict
 change_files_then_commit a

@@ -1,7 +1,7 @@
-create_cd_repo behind_1_upstream
+create_cd_repo upstream
 change_files_then_commit a b
-clone_cd_repo behind_1_upstream behind_1
-cd_repo behind_1_upstream
+clone_cd_repo upstream behind_1
+cd_repo upstream
 change_files_then_commit a
 cd_repo behind_1
 git fetch --quiet

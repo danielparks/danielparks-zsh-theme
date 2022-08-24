@@ -16,26 +16,19 @@ main () {
   done
 }
 
-foobar () {
-  echo foobar
-}
-
 run_test () {
-  local source_root=$1
-  local working_root=$2
-  local test_file=$3 # Absolute path
+  local source_root=${1:A}
+  local working_root=${2:A}
+  local test_file=$3
 
-  SHLVL=0 HOME=$working_root SOURCE=$source_root \
-  TEST=$test_file \
+  mkdir -p $working_root/$test_file
+  SHLVL=0 HOME=$working_root/$test_file SOURCE=$source_root TEST=$test_file \
 zsh -l <<'EOF'
   setopt extended_glob err_exit pipe_fail
   cd $SOURCE
   source tests-utils.zsh
   local test_abs=${TEST:A}
   cd
-  mkdir -p $TEST
-  cd $TEST
-  export TEST_ROOT=~/$TEST
   source "$test_abs"
 EOF
   local code=$?

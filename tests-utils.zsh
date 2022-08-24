@@ -16,24 +16,24 @@ print_prompt () {
 
 mkdir_cd () {
   [[ $# > 1 ]] && fail "Expected 1 argument to mkdir_cd, got: $*"
-  mkdir -p $TEST_ROOT/$1
-  cd $TEST_ROOT/$1
+  mkdir -p $1
+  cd $1
 }
 
 cd_repo () {
   [[ $# > 1 ]] && fail "Expected 1 argument to cd_repo, got: $*"
-  cd $TEST_ROOT/$1
+  cd ~/$1
 }
 
 create_cd_repo () {
   [[ $# > 1 ]] && fail "Expected 1 argument to create_cd_repo, got: $*"
-  mkdir_cd "$1"
+  mkdir_cd ~/"$1"
   git init --quiet
 }
 
 clone_cd_repo () {
   [[ $# != 2 ]] && fail "Expected 2 arguments to clone_cd_repo, got: $*"
-  cd $TEST_ROOT
+  cd
   git clone --quiet "$1" "$2"
   cd "$2"
 }
