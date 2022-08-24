@@ -5,4 +5,5 @@ cd_repo upstream
 change_files_then_commit a
 cd_repo behind_1
 git fetch --quiet
-print_prompt
+
+assert_git_info_eq ' %F{green}master%f %F{yellow}%1{↓%}1%f'

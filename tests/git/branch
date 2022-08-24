@@ -1,4 +1,5 @@
 create_cd_repo branch
 change_files_then_commit a b
 git checkout --quiet -b branch
-print_prompt
+
+assert_git_info_eq ' %F{green}branch%f'

@@ -1,2 +1,3 @@
 create_cd_repo empty
-print_prompt
+
+assert_git_info_eq ' %F{green}master%f'

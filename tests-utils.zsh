@@ -17,12 +17,29 @@ check_arguments () {
 	fi
 }
 
+assert_eq () {
+	check_arguments assert_eq 2 "$@"
+	if [[ "$1" != "$2" ]] ; then
+		fail "Not equal:\n  actual:   ${(q+)1}\n  expected: ${(q+)2}"
+	fi
+}
+
+assert_prompt_eq () {
+	check_arguments assert_prompt_eq 2 "$@"
+	assert_eq $1 ${(%%)2}
+}
+
 source danielparks-zsh-theme.plugin.zsh
 print_prompt () {
 	(
 		_danielparks_theme_precmd
 		print -P "${PROMPT}your-command here"
 	) | sed -e 's/^/  /'
+}
+
+assert_git_info_eq () {
+	check_arguments assert_git_info_eq 1 "$@"
+	assert_eq "$(_danielparks_theme_git_info escape)" "$1"
 }
 
 mkdir_cd () {

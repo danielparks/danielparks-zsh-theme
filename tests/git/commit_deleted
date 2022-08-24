@@ -1,4 +1,5 @@
 create_cd_repo commit_deleted
 change_files_then_commit a b
 rm a
-print_prompt
+
+assert_git_info_eq ' %F{red}master %1{○%}%f'

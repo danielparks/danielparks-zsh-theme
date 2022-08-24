@@ -2,4 +2,5 @@ create_cd_repo upstream
 change_files_then_commit a b
 clone_cd_repo upstream ahead_1
 change_files_then_commit a
-print_prompt
+
+assert_git_info_eq ' %F{green}master%f %F{yellow}%1{↑%}1%f'

@@ -6,4 +6,5 @@ change_files_then_commit a
 cd_repo ahead_1_behind_1
 change_files_then_commit a
 git fetch --quiet
-print_prompt
+
+assert_git_info_eq ' %F{green}master%f %F{red}%1{↑%}1%f %F{red}%1{↓%}1%f'
