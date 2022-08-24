@@ -25,14 +25,13 @@ run_test () {
 
 	mkdir -p $working_root/$test_file
 	SHLVL=0 HOME=$working_root/$test_file SOURCE=$source_root TEST=$test_file \
-zsh -l <<'EOF'
-	setopt extended_glob err_exit pipe_fail
-	cd $SOURCE
-	source tests-utils.zsh
-	local test_abs=${TEST:A}
-	cd
-	source "$test_abs"
-EOF
+	zsh -l <<-'EOF'
+		cd $SOURCE
+		source tests-utils.zsh
+		local test_abs=${TEST:A}
+		cd
+		source "$test_abs"
+	EOF
 	local code=$?
 	if [[ $code != 0 ]] ; then
 		echo Error exit: $code
