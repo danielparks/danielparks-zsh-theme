@@ -18,6 +18,7 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
   - If connected via SSH, user and host
   - Git status using [git-status-vars][] (if available)
     - Current branch, or SHA in detached HEAD state
+    - If an operation such as a merge, rebase, or cherry pick is in progress
     - Icons and color to indicate various states:
       | Icon | Color  | Meaning                            |
       |------|--------|------------------------------------|
