@@ -1,0 +1,12 @@
+create_cd_repo cherry-pick-unstaged
+change_files_then_commit a b
+git checkout --quiet -b branch
+change_files_then_commit a
+git switch --quiet master
+change_files_then_commit a
+git cherry-pick branch &>/dev/null || true
+date >a
+git add a
+git restore --staged a
+
+assert_git_info_eq ' %F{red}master %F{red}(cherry pick)%f %1{○%}%f'
