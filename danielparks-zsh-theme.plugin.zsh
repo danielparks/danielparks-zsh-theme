@@ -94,14 +94,14 @@ _danielparks_theme_git_info () {
 		ref=${head_hash:0:8}
 	fi
 
-	if [[ $repo_state != "Clean" ]] ; then
-		local snake=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
-		ref+=" %F{red}(${snake:l})%f"
-	fi
-
 	print -n$P " %F{$fg_color}${ref}${icons}%f"
 
-	local fg_color=yellow
+	if [[ $repo_state != "Clean" ]] ; then
+		local words=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
+		print -n$P " %F{red}(${words:l})%f"
+	fi
+
+	fg_color=yellow
 	if [[ $head_ahead > 0 && $head_behind > 0 ]] ; then
 		fg_color=red
 	fi

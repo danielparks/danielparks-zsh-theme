@@ -6,4 +6,4 @@ git switch --quiet master
 change_files_then_commit a
 git cherry-pick branch &>/dev/null || true
 
-assert_git_info_eq ' %F{green}master %F{red}(cherry pick)%f %1{⚠️%} %f'
+assert_git_info_eq ' %F{green}master %1{⚠️%} %f %F{red}(cherry pick)%f'

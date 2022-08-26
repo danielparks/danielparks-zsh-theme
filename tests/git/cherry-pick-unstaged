@@ -9,4 +9,4 @@ date >a
 git add a
 git restore --staged a
 
-assert_git_info_eq ' %F{red}master %F{red}(cherry pick)%f %1{○%}%f'
+assert_git_info_eq ' %F{red}master %1{○%}%f %F{red}(cherry pick)%f'
