@@ -2,18 +2,16 @@
 
 setopt err_exit pipe_fail
 
-show_prompt=
-
 main () {
-	local help keep
-	zparseopts -D -K -- \
-		-show-prompt=show_prompt \
+	local -a help keep show_output
+
+	zparseopts -D -K -F -- \
+		-show-output=show_output \
 		-keep=keep \
-		-help=help \
-		h=help &>/dev/null
+		{h,-help}=help
 
 	if [[ $? != 0 || -n $help ]] ; then
-		echo "Usage: run-tests.zsh [--show-prompt] [--keep] [test-files]" >&2
+		echo "Usage: run-tests.zsh [--show-output] [--keep] [test-files]" >&2
 		exit 1
 	fi
 
@@ -32,7 +30,7 @@ main () {
 
 	IFS=$'\n'
 	for f in $(find $tests -type f) ; do
-		run_test $source_root $working_root $f
+		run_test "$show_output" "$source_root" "$working_root" "$f"
 	done
 
 	if [[ ! $keep ]] ; then
@@ -41,9 +39,10 @@ main () {
 }
 
 run_test () {
-	local source_root=${1:A}
-	local working_root=${2:A}
-	local test_file=$3
+	local show_output=$1
+	local source_root=${2:A}
+	local working_root=${3:A}
+	local test_file=$4
 
 	mkdir -p $working_root/$test_file
 
@@ -56,7 +55,7 @@ run_test () {
 		local test_abs=${TEST:A}
 		cd
 		source "$test_abs"
-		print_prompt
+		after_test
 	EOF
 
 	local code=$?
@@ -64,8 +63,10 @@ run_test () {
 		echo Test $test_file failed with code $code:
 		cat $working_root/$test_file.out | sed -e 's/^/  /'
 		echo
-	elif [[ $show_prompt ]] ; then
+	elif [[ $show_output ]] ; then
+		echo Test $test_file succeeded:
 		cat $working_root/$test_file.out
+		echo
 	fi
 }
 

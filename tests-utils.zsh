@@ -30,7 +30,7 @@ assert_prompt_eq () {
 }
 
 source danielparks-zsh-theme.plugin.zsh
-print_prompt () {
+after_test () {
 	(
 		_danielparks_theme_precmd
 		print -P "${PROMPT}your-command here"
