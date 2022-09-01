@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
 
-setopt err_exit pipe_fail
+this_script=${0:a}
 
 main () {
+	setopt err_exit pipe_fail
 	local -a help keep show_output
 
 	zparseopts -D -K -F -- \
@@ -48,15 +49,7 @@ run_test () {
 
 	setopt local_options no_err_exit
 	SHLVL=0 HOME=$working_root/$test_file SOURCE=$source_root TEST=$test_file \
-	zsh -l <<-'EOF' &>$working_root/$test_file.out
-		setopt err_exit
-		cd $SOURCE
-		source tests-utils.zsh
-		local test_abs=${TEST:A}
-		cd
-		source "$test_abs"
-		after_test
-	EOF
+	zsh -l "$this_script" --subshell &>$working_root/$test_file.out
 
 	local code=$?
 	if [[ $code != 0 ]] ; then
@@ -70,4 +63,68 @@ run_test () {
 	fi
 }
 
-main "$@"
+# Inside a subshell in run_test
+subshell () {
+	setopt err_exit
+
+	cd $SOURCE
+	local test_abs=${TEST:A}
+
+	setopt null_glob
+	local helpers=(test-*.zsh)
+	setopt no_null_glob
+	for file in $helpers ; do
+		source $file
+	done
+
+	cd
+	try_command before_test
+	source "$test_abs"
+	try_command after_test
+}
+
+try_command () {
+	if command -v "$1" &>/dev/null ; then
+		"$@"
+	fi
+}
+
+# Utility functions for tests
+
+# Print a message to stderr and exit
+#
+# fail "message" [exit_code]
+fail () {
+	echo "$1" >&2
+	exit ${2:-1}
+}
+
+# Check that the expected number of arguments were passed
+#
+# check_arguments "function_name" number "$@"
+check_arguments () {
+	local func=$1
+	local expected=$2
+	shift ; shift
+	if [[ $# != $expected ]] ; then
+		print "$func expected $expected arguments but got $#:" >&2
+		printf "  %s\n" ${(q+)@} >&2
+		exit 1
+	fi
+}
+
+# Assert two strings are equal
+#
+# assert_eq actual expected
+assert_eq () {
+	check_arguments assert_eq 2 "$@"
+	if [[ "$1" != "$2" ]] ; then
+		fail "Not equal:\n  actual:   ${(q+)1}\n  expected: ${(q+)2}"
+	fi
+}
+
+if [[ "$*" == '--subshell' ]] ; then
+	subshell
+else
+	main "$@"
+fi

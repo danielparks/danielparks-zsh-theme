@@ -1,29 +1,6 @@
 # Disable git configuration
 export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null
 
-fail () {
-	echo "$1" >&2
-	exit ${2:-1}
-}
-
-check_arguments () {
-	local func=$1
-	local expected=$2
-	shift ; shift
-	if [[ $# != $expected ]] ; then
-		print "$func expected $expected arguments but got $#:" >&2
-		printf "  %s\n" ${(q+)@} >&2
-		exit 1
-	fi
-}
-
-assert_eq () {
-	check_arguments assert_eq 2 "$@"
-	if [[ "$1" != "$2" ]] ; then
-		fail "Not equal:\n  actual:   ${(q+)1}\n  expected: ${(q+)2}"
-	fi
-}
-
 assert_prompt_eq () {
 	check_arguments assert_prompt_eq 2 "$@"
 	assert_eq $1 ${(%%)2}
