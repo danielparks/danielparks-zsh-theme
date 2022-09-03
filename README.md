@@ -49,9 +49,9 @@ To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔ ↑ �
 
 ## Testing
 
-This comes with a simple zsh test harness. You can run tests with
-`./run-tests.zsh`, and if you want to see what prompts looks like in various
-situations, you can run `./run-tests.zsh --show-prompt`.
+This can be used with my [simple Zsh test harness][zsh-test-harness]. You can
+run tests with `run-tests.zsh`, and if you want to see what prompts looks like
+in various situations, you can run `run-tests.zsh --show-output`.
 
 ## License
 
@@ -65,5 +65,6 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 
 [git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
+[zsh-test-harness]: https://github.com/danielparks/zsh-test-harness
 [agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
 [Unlicense]: https://unlicense.org
