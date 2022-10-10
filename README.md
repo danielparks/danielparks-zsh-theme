@@ -6,7 +6,8 @@ copied and pasted.
 
 If [git-status-vars][] is available, it will use it to get better information
 about git repos, as well as a slight edge in speed. It will warn you if it is
-not present, but that can be disabled with an environment variable.
+not present, but that can be disabled by setting `IGNORE_GIT_SUMMARY=1` before
+loading this plugin.
 
 <img src="screenshot.png" width="525" height="484" alt="" />
 
