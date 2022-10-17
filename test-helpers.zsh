@@ -16,7 +16,7 @@ after_test () {
 
 assert_git_info_eq () {
 	check_arguments assert_git_info_eq 1 "$@"
-	assert_eq "$(_danielparks_theme_git_info escape)" "$1"
+	assert_eq "$(_danielparks_theme_git_info)" "$1"
 }
 
 mkdir_cd () {

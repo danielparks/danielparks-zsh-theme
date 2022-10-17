@@ -46,16 +46,10 @@ _danielparks_theme_git_info_fallback () {
 
 	ref=$(git symbolic-ref --short HEAD 2>/dev/null) ||
 		ref=$(git show-ref --head -s --abbrev HEAD 2>/dev/null | head -n1)
-	print -Pn " %F{$fg_color}${ref}${icons}%f"
+	print -n " %F{$fg_color}${ref}${icons}%f"
 }
 
 _danielparks_theme_git_info () {
-	# Optionally output without prompt expansion
-	local P=P
-	if [[ $1 == "escape" ]] ; then
-		P=
-	fi
-
 	eval $(git-status-vars 2>/dev/null)
 
 	if [[ -z $repo_state ]] ; then
@@ -94,11 +88,11 @@ _danielparks_theme_git_info () {
 		ref=${head_hash:0:8}
 	fi
 
-	print -n$P " %F{$fg_color}${ref}${icons}%f"
+	print -n " %F{$fg_color}${ref}${icons}%f"
 
 	if [[ $repo_state != "Clean" ]] ; then
 		local words=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
-		print -n$P " %F{red}(${words:l})%f"
+		print -n " %F{red}(${words:l})%f"
 	fi
 
 	fg_color=yellow
@@ -107,11 +101,11 @@ _danielparks_theme_git_info () {
 	fi
 
 	if [[ $head_ahead > 0 ]] ; then
-		print -n$P " %F{${fg_color}}%1{↑%}${head_ahead}%f"
+		print -n " %F{${fg_color}}%1{↑%}${head_ahead}%f"
 	fi
 
 	if [[ $head_behind > 0 ]] ; then
-		print -n$P " %F{${fg_color}}%1{↓%}${head_behind}%f"
+		print -n " %F{${fg_color}}%1{↓%}${head_behind}%f"
 	fi
 }
 
@@ -151,6 +145,7 @@ _danielparks_theme_precmd () {
 
 	print -P $preprompt
 
+	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
 		print -Pn "\e]2;%n@%m %~\a"
 	else
