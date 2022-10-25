@@ -9,3 +9,6 @@ git fetch --quiet
 git merge origin/master &>/dev/null || true
 
 assert_git_info_eq ' %F{green}master %1{⚠️%} %f %F{red}(merge)%f %F{red}%1{↑%}1%f %F{red}%1{↓%}1%f'
+
+# Fallback doesn’t handle merge conflicts
+assert_git_info_fallback_eq ' %F{red}master %1{⦿%}%f'

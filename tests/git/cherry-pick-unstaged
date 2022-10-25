@@ -10,3 +10,6 @@ git add a
 git restore --staged a
 
 assert_git_info_eq ' %F{red}master %1{○%}%f %F{red}(cherry pick)%f'
+
+# Fallback doesn’t handle cherry picks
+assert_git_info_fallback_eq ' %F{red}master %1{○%}%f'

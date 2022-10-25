@@ -8,3 +8,6 @@ change_files_then_commit a
 git fetch --quiet
 
 assert_git_info_eq ' %F{green}master%f %F{red}%1{↑%}1%f %F{red}%1{↓%}1%f'
+
+# Fallback doesn’t handle ahead and behind
+assert_git_info_fallback_eq ' %F{green}master%f'

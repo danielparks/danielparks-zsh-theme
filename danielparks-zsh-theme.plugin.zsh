@@ -21,7 +21,6 @@ _danielparks_theme_humanize_interval () {
 _danielparks_theme_git_info_fallback () {
 	local gitstatus icons='' fg_color=green
 
-	# FIXME I don't think this works correctly while resolving a merge
 	gitstatus=$(git status --porcelain=1 2>/dev/null) || return 0
 
 	if echo $gitstatus | grep --quiet '^.[^ ?!]' ; then

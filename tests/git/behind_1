@@ -7,3 +7,6 @@ cd_repo behind_1
 git fetch --quiet
 
 assert_git_info_eq ' %F{green}master%f %F{yellow}%1{↓%}1%f'
+
+# Fallback doesn’t handle behind
+assert_git_info_fallback_eq ' %F{green}master%f'

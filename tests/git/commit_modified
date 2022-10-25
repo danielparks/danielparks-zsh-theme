@@ -3,3 +3,4 @@ change_files_then_commit a b
 date >a
 
 assert_git_info_eq ' %F{red}master %1{○%}%f'
+assert_git_info_fallback_eq ' %F{red}master %1{○%}%f'

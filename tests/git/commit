@@ -2,3 +2,4 @@ create_cd_repo commit
 change_files_then_commit a b
 
 assert_git_info_eq ' %F{green}master%f'
+assert_git_info_fallback_eq ' %F{green}master%f'

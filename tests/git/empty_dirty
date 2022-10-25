@@ -2,3 +2,4 @@ create_cd_repo empty_dirty
 touch untracked
 
 assert_git_info_eq ' %F{red}master%f'
+assert_git_info_fallback_eq ' %F{red}master%f'

@@ -3,3 +3,4 @@ touch added untracked
 git add added
 
 assert_git_info_eq ' %F{red}master %1{●%}%f'
+assert_git_info_fallback_eq ' %F{red}master %1{●%}%f'

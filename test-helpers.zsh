@@ -19,6 +19,11 @@ assert_git_info_eq () {
 	assert_eq "$(_danielparks_theme_git_info)" "$1"
 }
 
+assert_git_info_fallback_eq () {
+	check_arguments assert_git_info_fallback_eq 1 "$@"
+	assert_eq "$(_danielparks_theme_git_info_fallback)" "$1"
+}
+
 mkdir_cd () {
 	check_arguments mkdir_cd 1 "$@"
 	mkdir -p $1

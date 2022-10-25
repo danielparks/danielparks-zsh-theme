@@ -4,3 +4,6 @@ clone_cd_repo upstream ahead_1
 change_files_then_commit a
 
 assert_git_info_eq ' %F{green}master%f %F{yellow}%1{↑%}1%f'
+
+# Fallback doesn’t handle ahead
+assert_git_info_fallback_eq ' %F{green}master%f'
