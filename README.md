@@ -6,8 +6,8 @@ copied and pasted.
 
 If [git-status-vars][] is available, it will use it to get better information
 about git repos, as well as a slight edge in speed. It will warn you if it is
-not present, but that can be disabled by setting `IGNORE_GIT_SUMMARY=1` before
-loading this plugin.
+not present, but that can be disabled by setting `IGNORE_GIT_STATUS_VARS=1`
+before loading this plugin.
 
 <img src="screenshot.png" width="525" height="484" alt="" />
 
@@ -42,7 +42,7 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 ## Configuration
 
 This warns if [git-status-vars][] is not installed. To suppress the message, set
-`IGNORE_GIT_SUMMARY=1` before loading this plugin.
+`IGNORE_GIT_STATUS_VARS=1` before loading this plugin.
 
 ## Compatibility
 
