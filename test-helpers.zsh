@@ -1,5 +1,9 @@
-# Disable git configuration
-export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null
+# Ensure we only use our git configuration. ($HOME is a temporary directory.)
+export GIT_CONFIG_GLOBAL=$HOME/.gitconfig GIT_CONFIG_SYSTEM=/dev/null
+
+# GitHub actions fail if these are not set.
+git config --global user.email "null@example.com"
+git config --global user.name "Test Runner"
 
 assert_prompt_eq () {
 	check_arguments assert_prompt_eq 2 "$@"
