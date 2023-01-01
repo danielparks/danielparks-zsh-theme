@@ -1,0 +1,34 @@
+name: PR checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - $default-branch
+  pull_request:
+
+defaults:
+  run:
+    # Setting shell: bash explicitly activates pipefail
+    shell: bash
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt-get install -yqq zsh
+      - name: Install test harness
+        uses: actions/checkout@v3
+        with:
+          repository: danielparks/zsh-test-harness
+          path: harness
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: git-status-vars
+      - run: harness/run-tests.zsh --show-output
