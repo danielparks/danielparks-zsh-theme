@@ -169,8 +169,8 @@ _danielparks_theme_preexec () {
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then
-		print -P '%B%F{red}git-status-vars not installed. Run `cargo install git-status-vars`.%f%b' >&2
-		print 'See: https://github.com/danielparks/git-status-vars' >&2
+		print -P '%B%F{red}git-status-vars not installed.%f%b Run `cargo install git-status-vars` or visit' >&2
+		print 'https://github.com/danielparks/git-status-vars#installation for instructions.' >&2
 		print 'Set IGNORE_GIT_STATUS_VARS=1 to suppress this message.' >&2
 	fi
 }
