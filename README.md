@@ -17,7 +17,8 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
   - Success (`✔`) or exit code (`=1`) of last command
   - If connected via SSH, user and host
-  - Git status using [git-status-vars][] (if available)
+  - Git status using [git-status-vars][] if available, or straight `git` (some
+    features will be disabled, e.g. no commits ahead/behind).
     - Current branch, or SHA in detached HEAD state
     - If an operation such as a merge, rebase, or cherry pick is in progress
     - Icons and color to indicate various states:
