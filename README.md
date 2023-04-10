@@ -55,6 +55,12 @@ This can be used with my [simple Zsh test harness][zsh-test-harness]. You can
 run tests with `run-tests.zsh`, and if you want to see what prompts looks like
 in various situations, you can run `run-tests.zsh --show-output`.
 
+## Development status
+
+I’ll update this as I come up with new ideas or run into problems. I use this
+theme daily, so it’s unlikely to  bit rot. I’m open to [suggestions][issues]
+and [pull requests][prs] if other people find this useful.
+
 ## License
 
 This was originally based on [agnoster-zsh-theme][]. I believe I have replaced
@@ -68,5 +74,7 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 [git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
 [zsh-test-harness]: https://github.com/danielparks/zsh-test-harness
+[issues]: https://github.com/danielparks/danielparks-zsh-theme/issues
+[prs]: https://github.com/danielparks/danielparks-zsh-theme/pulls
 [agnoster-zsh-theme]: https://github.com/agnoster/agnoster-zsh-theme
 [Unlicense]: https://unlicense.org
