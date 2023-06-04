@@ -8,11 +8,6 @@ export IGNORE_GIT_STATUS_VARS=1
 git config --global user.email "null@example.com"
 git config --global user.name "Test Runner"
 
-assert_prompt_eq () {
-	check_arguments assert_prompt_eq 2 "$@"
-	assert_eq $1 ${(%%)2}
-}
-
 source danielparks-zsh-theme.plugin.zsh
 after_test () {
 	(
@@ -21,9 +16,11 @@ after_test () {
 	) | sed -e 's/^/  /'
 }
 
-assert_preprompt_eq () {
+assert_prompt_eq () {
 	check_arguments assert_preprompt_eq 1 "$@"
-	assert_eq "$(_danielparks_theme_precmd 2>&1)" "$1"
+	assert_eq "$(_danielparks_theme_precmd 2>&1)" ""
+	_danielparks_theme_precmd 2>&1 >/dev/null
+	assert_eq "$PROMPT" "$1"
 }
 
 assert_git_info_eq () {

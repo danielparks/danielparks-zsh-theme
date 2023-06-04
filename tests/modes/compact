@@ -1,11 +1,4 @@
 mkdir_cd ~/modes/compact
 danielparks_theme=compact
 
-correct () {
-	print -Pn '%f%k%B%F{green}%1{✔%}%f %F{white}~/modes/compact%f'
-
-	# Terminal title information
-	print -Pn "\e]2;%~\a"
-}
-
-assert_preprompt_eq "$(correct)"
+assert_prompt_eq '%f%k%B%F{green}%1{✔%}%f %F{white}%~%f\e]2;%~\a%(!.%F{yellow}root.)❯%f%k%b '

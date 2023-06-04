@@ -121,55 +121,57 @@ _danielparks_theme_precmd () {
 	(( elapsed = EPOCHREALTIME - startseconds ))
 	_danielparks_theme_preexec_timestamp=
 
-	# Build up string so that it all appears at once
-	local preprompt=
+	# Build up string to prepend to $PROMPT (just printing it won’t work if it
+	# doesn’t end with a newline — zsh clears the line when it prints $PROMPT).
+	_danielparks_theme_preprompt=
 
 	if [[ $danielparks_theme != compact ]] ; then
 		# Blank line before prompt.
-		preprompt=$'\n'
+		_danielparks_theme_preprompt=$'\n'
 
 		if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
-			print -Pn '%B%F{red}Invalid setting for $danielparks_theme (' >&2
-			print -Pn $danielparks_theme'), expected one of "full", "compact", or' >&2
-			print -P ' "".%f%b' >&2
+			_danielparks_theme_preprompt+='%B%F{red}Invalid setting for'
+			_danielparks_theme_preprompt+=' $danielparks_theme ('$danielparks_theme
+			_danielparks_theme_preprompt+='), expected one of "full", "compact", or'
+			_danielparks_theme_preprompt+=$' "".%f%b\n\n'
 		fi
 	fi
 
 	if [ $last_status = 0 ] ; then
-		preprompt+='%f%k%B%F{green}%1{✔%}%f'
+		_danielparks_theme_preprompt+='%f%k%B%F{green}%1{✔%}%f'
 	else
-		preprompt+="%f%k%B%F{red}=${last_status}%f"
+		_danielparks_theme_preprompt+="%f%k%B%F{red}=${last_status}%f"
 	fi
 
 	if [[ $SSH_CONNECTION ]] ; then
-		preprompt+=' %F{yellow}%n@%m%f' # user@host
+		_danielparks_theme_preprompt+=' %F{yellow}%n@%m%f' # user@host
 	fi
 
 	if [[ $danielparks_theme != compact ]] ; then
-		preprompt+=$(_danielparks_theme_git_info)
+		_danielparks_theme_preprompt+=$(_danielparks_theme_git_info)
 	fi
 
-	preprompt+=' %F{white}%~%f' # directory
+	_danielparks_theme_preprompt+=' %F{white}%~%f' # directory
 
 	if [[ $danielparks_theme != compact ]] ; then
-		preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
-		preprompt+=$(_danielparks_theme_virtualenv_info)
+		_danielparks_theme_preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
+		_danielparks_theme_preprompt+=$(_danielparks_theme_virtualenv_info)
 
 		if (( elapsed > 0.05 )) ; then
-			preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
+			_danielparks_theme_preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
 		fi
 
-		preprompt+=$'\n'
+		_danielparks_theme_preprompt+=$'\n'
 	fi
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		preprompt+="\e]2;%n@%m %~\a"
+		_danielparks_theme_preprompt+="\e]2;%n@%m %~\a"
 	else
-		preprompt+="\e]2;%~\a"
+		_danielparks_theme_preprompt+="\e]2;%~\a"
 	fi
 
-	print -Pn $preprompt
+	PROMPT="${_danielparks_theme_preprompt}${_danielparks_theme_prompt}"
 }
 
 _danielparks_theme_preexec () {
@@ -185,7 +187,8 @@ _danielparks_theme_preexec () {
 
 	# 'root' if running as root. As many ❯ as $SHLVL.
 	local prompt_chars=$(repeat $SHLVL print -Pn '%1{❯%}')
-	PROMPT="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
+	_danielparks_theme_prompt="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
+	PROMPT="$_danielparks_theme_prompt"
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then

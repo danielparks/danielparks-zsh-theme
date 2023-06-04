@@ -1,17 +1,8 @@
 mkdir_cd ~/modes/invalid
 danielparks_theme=invalid
 
-correct () {
-	print -Pn '%B%F{red}Invalid setting for $danielparks_theme (invalid),'
-	print -P ' expected one of "full", "compact", or "".%f%b'
-	print -P ''
-	print -Pn '%f%k%B%F{green}%1{✔%}%f %F{white}~/modes/invalid%f'
+assert_prompt_eq '
+%B%F{red}Invalid setting for $danielparks_theme (invalid), expected one of "full", "compact", or "".%f%b
 
-	# FIXME? If we’re close to the second change this could fail.
-	print -P ' %F{blue}%D{%L:%M:%S %p}%f'
-
-	# Terminal title information
-	print -Pn "\e]2;%~\a"
-}
-
-assert_preprompt_eq "$(correct)"
+%f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
+\e]2;%~\a%(!.%F{yellow}root.)❯%f%k%b '
