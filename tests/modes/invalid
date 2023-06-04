@@ -1,7 +1,7 @@
 mkdir_cd ~/modes/invalid
 danielparks_theme=invalid
 
-assert_prompt_eq '
+assert_prompt_eq $'
 %B%F{red}Invalid setting for $danielparks_theme (invalid), expected one of "full", "compact", or "".%f%b
 
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f

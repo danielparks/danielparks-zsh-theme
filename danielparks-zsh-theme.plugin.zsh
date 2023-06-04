@@ -166,9 +166,9 @@ _danielparks_theme_precmd () {
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		_danielparks_theme_preprompt+="\e]2;%n@%m %~\a"
+		_danielparks_theme_preprompt+=$'\e]2;%n@%m %~\a'
 	else
-		_danielparks_theme_preprompt+="\e]2;%~\a"
+		_danielparks_theme_preprompt+=$'\e]2;%~\a'
 	fi
 
 	PROMPT="${_danielparks_theme_preprompt}${_danielparks_theme_prompt}"
