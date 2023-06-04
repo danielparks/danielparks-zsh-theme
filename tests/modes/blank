@@ -1,6 +1,6 @@
 mkdir_cd ~/modes/blank
 unset danielparks_theme
 
-assert_prompt_eq '
+assert_prompt_eq $'
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
 \e]2;%~\a%(!.%F{yellow}root.)❯%f%k%b '
