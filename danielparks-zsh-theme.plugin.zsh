@@ -122,7 +122,18 @@ _danielparks_theme_precmd () {
 	_danielparks_theme_preexec_timestamp=
 
 	# Build up string so that it all appears at once
-	local preprompt=$'\n'
+	local preprompt=
+
+	if [[ $danielparks_theme != compact ]] ; then
+		# Blank line before prompt.
+		preprompt=$'\n'
+
+		if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
+			print -Pn '%B%F{red}Invalid setting for $danielparks_theme (' >&2
+			print -Pn $danielparks_theme'), expected one of "full", "compact", or' >&2
+			print -P ' "".%f%b' >&2
+		fi
+	fi
 
 	if [ $last_status = 0 ] ; then
 		preprompt+='%f%k%B%F{green}%1{✔%}%f'
@@ -134,23 +145,31 @@ _danielparks_theme_precmd () {
 		preprompt+=' %F{yellow}%n@%m%f' # user@host
 	fi
 
-	preprompt+=$(_danielparks_theme_git_info)
-	preprompt+=' %F{white}%~%f' # directory
-	preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
-	preprompt+=$(_danielparks_theme_virtualenv_info)
-
-	if (( elapsed > 0.05 )) ; then
-		preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
+	if [[ $danielparks_theme != compact ]] ; then
+		preprompt+=$(_danielparks_theme_git_info)
 	fi
 
-	print -P $preprompt
+	preprompt+=' %F{white}%~%f' # directory
+
+	if [[ $danielparks_theme != compact ]] ; then
+		preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
+		preprompt+=$(_danielparks_theme_virtualenv_info)
+
+		if (( elapsed > 0.05 )) ; then
+			preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
+		fi
+
+		preprompt+=$'\n'
+	fi
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		print -Pn "\e]2;%n@%m %~\a"
+		preprompt+="\e]2;%n@%m %~\a"
 	else
-		print -Pn "\e]2;%~\a"
+		preprompt+="\e]2;%~\a"
 	fi
+
+	print -Pn $preprompt
 }
 
 _danielparks_theme_preexec () {
@@ -170,8 +189,10 @@ _danielparks_theme_preexec () {
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then
-		print -P '%B%F{red}git-status-vars not installed.%f%b Run `cargo install git-status-vars` or visit' >&2
-		print 'https://github.com/danielparks/git-status-vars#installation for instructions.' >&2
-		print 'Set IGNORE_GIT_STATUS_VARS=1 to suppress this message.' >&2
+		print -Pn '%B%F{red}git-status-vars not installed.%f%b Run' >&2
+		print -Pn ' `cargo install git-status-vars` or visit' >&2
+		print -Pn ' https://github.com/danielparks/git-status-vars#installation' >&2
+		print -Pn ' for instructions. Set IGNORE_GIT_STATUS_VARS=1 to suppress' >&2
+		print -P ' this message.' >&2
 	fi
 }

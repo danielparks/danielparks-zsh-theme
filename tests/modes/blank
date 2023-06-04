@@ -1,0 +1,15 @@
+mkdir_cd ~/modes/blank
+unset danielparks_theme
+
+correct () {
+	print -P ''
+	print -Pn '%f%k%B%F{green}%1{✔%}%f %F{white}~/modes/blank%f'
+
+	# FIXME? If we’re close to the second change this could fail.
+	print -P ' %F{blue}%D{%L:%M:%S %p}%f'
+
+	# Terminal title information
+	print -Pn "\e]2;%~\a"
+}
+
+assert_preprompt_eq "$(correct)"
