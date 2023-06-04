@@ -1,6 +1,9 @@
 # Ensure we only use our git configuration. ($HOME is a temporary directory.)
 export GIT_CONFIG_GLOBAL=$HOME/.gitconfig GIT_CONFIG_SYSTEM=/dev/null
 
+# Disable warning message about git-status-vars
+export IGNORE_GIT_STATUS_VARS=1
+
 # GitHub actions fail if these are not set.
 git config --global user.email "null@example.com"
 git config --global user.name "Test Runner"
@@ -13,19 +16,24 @@ assert_prompt_eq () {
 source danielparks-zsh-theme.plugin.zsh
 after_test () {
 	(
-		_danielparks_theme_precmd
+		_danielparks_theme_precmd 2>&1
 		print -P "${PROMPT}your-command here"
 	) | sed -e 's/^/  /'
 }
 
+assert_preprompt_eq () {
+	check_arguments assert_preprompt_eq 1 "$@"
+	assert_eq "$(_danielparks_theme_precmd 2>&1)" "$1"
+}
+
 assert_git_info_eq () {
 	check_arguments assert_git_info_eq 1 "$@"
-	assert_eq "$(_danielparks_theme_git_info)" "$1"
+	assert_eq "$(_danielparks_theme_git_info 2>&1)" "$1"
 }
 
 assert_git_info_fallback_eq () {
 	check_arguments assert_git_info_fallback_eq 1 "$@"
-	assert_eq "$(_danielparks_theme_git_info_fallback)" "$1"
+	assert_eq "$(_danielparks_theme_git_info_fallback 2>&1)" "$1"
 }
 
 mkdir_cd () {
