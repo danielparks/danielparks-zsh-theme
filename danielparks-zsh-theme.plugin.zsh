@@ -125,7 +125,7 @@ _danielparks_theme_precmd () {
 	if [[ $SSH_CONNECTION ]] ; then
 		print -Pn '\e]2;%n@%m %~\a'
 	else
-		print -Pn $'\e]2;%~\a'
+		print -Pn '\e]2;%~\a'
 	fi
 
 	# Build up string to prepend to $PROMPT (just printing it won’t work if it
