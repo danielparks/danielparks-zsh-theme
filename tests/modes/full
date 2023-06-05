@@ -1,6 +1,6 @@
 mkdir_cd ~/modes/full
 danielparks_theme=full
 
-assert_prompt_eq $'
+assert_prompt_eq $'\e]2;%~\a' $'
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
-\e]2;%~\a%(!.%F{yellow}root.)❯%f%k%b '
+%(!.%F{yellow}root.)❯%f%k%b '

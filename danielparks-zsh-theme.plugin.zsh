@@ -121,13 +121,20 @@ _danielparks_theme_precmd () {
 	(( elapsed = EPOCHREALTIME - startseconds ))
 	_danielparks_theme_preexec_timestamp=
 
+	# Output invisible information for terminal title.
+	if [[ $SSH_CONNECTION ]] ; then
+		print -Pn '\e]2;%n@%m %~\a'
+	else
+		print -Pn $'\e]2;%~\a'
+	fi
+
 	# Build up string to prepend to $PROMPT (just printing it won’t work if it
 	# doesn’t end with a newline — zsh clears the line when it prints $PROMPT).
 	_danielparks_theme_preprompt=
 
 	if [[ $danielparks_theme != compact ]] ; then
 		# Blank line before prompt.
-		_danielparks_theme_preprompt=$'\n'
+		_danielparks_theme_preprompt+=$'\n'
 
 		if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
 			_danielparks_theme_preprompt+='%B%F{red}Invalid setting for'
@@ -162,13 +169,6 @@ _danielparks_theme_precmd () {
 		fi
 
 		_danielparks_theme_preprompt+=$'\n'
-	fi
-
-	# Output invisible information for terminal title.
-	if [[ $SSH_CONNECTION ]] ; then
-		_danielparks_theme_preprompt+=$'\e]2;%n@%m %~\a'
-	else
-		_danielparks_theme_preprompt+=$'\e]2;%~\a'
 	fi
 
 	PROMPT="${_danielparks_theme_preprompt}${_danielparks_theme_prompt}"
