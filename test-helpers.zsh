@@ -17,10 +17,10 @@ after_test () {
 }
 
 assert_prompt_eq () {
-	check_arguments assert_preprompt_eq 1 "$@"
-	assert_eq "$(_danielparks_theme_precmd 2>&1)" ""
-	_danielparks_theme_precmd 2>&1 >/dev/null
-	assert_eq "$PROMPT" "$1"
+	check_arguments assert_preprompt_eq 2 "$@"
+	assert_eq "$(_danielparks_theme_precmd 2>&1)" "$(print -Pn "$1")"
+	_danielparks_theme_precmd &>/dev/null
+	assert_eq "$PROMPT" "$2"
 }
 
 assert_git_info_eq () {
