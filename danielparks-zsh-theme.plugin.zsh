@@ -135,7 +135,8 @@ _danielparks_theme_precmd () {
 
 	if [[ $danielparks_theme != minimal ]] ; then
 		if [[ $danielparks_theme != compact ]] ; then
-			if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
+			if [[ $danielparks_theme != full && $danielparks_theme != ''
+					&& $danielparks_theme != $_danielparks_theme_last ]] ; then
 				print -Pn $'\n%B%F{red}Invalid setting for $danielparks_theme ('
 				print -n $danielparks_theme
 				print -P $'), expected one of "full", "compact", "minimal", or "".%f%b'
@@ -189,6 +190,8 @@ _danielparks_theme_precmd () {
 
 	# 'root' if running as root. As many ❯ as $SHLVL.
 	PROMPT+="$(repeat $SHLVL print -n "$prompt_char")%f%k%b "
+
+	_danielparks_theme_last=$danielparks_theme
 }
 
 _danielparks_theme_preexec () {
