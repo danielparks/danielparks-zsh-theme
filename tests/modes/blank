@@ -3,4 +3,4 @@ unset danielparks_theme
 
 assert_prompt_eq $'\e]2;%~\a' $'
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
-%(!.%F{yellow}root.)❯%f%k%b '
+%(!.%F{yellow}root.)%1{❯%}%f%k%b '

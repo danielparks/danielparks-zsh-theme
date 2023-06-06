@@ -20,6 +20,10 @@ This is useful for situations where you want to copy and paste your shell.
 It may be set and unset during the shell session. Set `danielparks_theme=full`
 or just `unset` the variable to restore the full theme.
 
+You can set `danielparks_theme=minimal` to get an even more minimal version of
+the theme that just shows `✔` or `✘` as the prompt depending on whether the last
+command succeeded or failed.
+
 You can set `IGNORE_GIT_STATUS_VARS=1` to disable the check for
 [git-status-vars][] on start up. Note that this will still use `git-status-vars`
 if it is present in `$PATH`.

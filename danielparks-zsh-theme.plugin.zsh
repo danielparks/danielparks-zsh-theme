@@ -115,6 +115,7 @@ _danielparks_theme_virtualenv_info () {
 
 _danielparks_theme_precmd () {
 	local last_status=$?
+	local prompt_char
 
 	local startseconds=${_danielparks_theme_preexec_timestamp:-$EPOCHREALTIME}
 	float elapsed
@@ -128,50 +129,66 @@ _danielparks_theme_precmd () {
 		print -Pn '\e]2;%~\a'
 	fi
 
-	# Build up string to prepend to $PROMPT (just printing it won’t work if it
-	# doesn’t end with a newline — zsh clears the line when it prints $PROMPT).
-	_danielparks_theme_preprompt=
+	# Build up $PROMPT (just printing the prompt won’t work if it doesn’t end with
+	# a newline — zsh clears the line when it prints $PROMPT).
+	PROMPT=
 
-	if [[ $danielparks_theme != compact ]] ; then
-		# Blank line before prompt.
-		_danielparks_theme_preprompt+=$'\n'
+	if [[ $danielparks_theme != minimal ]] ; then
+		if [[ $danielparks_theme != compact ]] ; then
+			if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
+				print -Pn $'\n%B%F{red}Invalid setting for $danielparks_theme ('
+				print -n $danielparks_theme
+				print -P $'), expected one of "full", "compact", "minimal", or "".%f%b'
+			fi
 
-		if [[ $danielparks_theme != full && $danielparks_theme != '' ]] ; then
-			_danielparks_theme_preprompt+='%B%F{red}Invalid setting for'
-			_danielparks_theme_preprompt+=' $danielparks_theme ('$danielparks_theme
-			_danielparks_theme_preprompt+='), expected one of "full", "compact", or'
-			_danielparks_theme_preprompt+=$' "".%f%b\n\n'
+			# Blank line before prompt.
+			PROMPT+=$'\n'
 		fi
-	fi
 
-	if [ $last_status = 0 ] ; then
-		_danielparks_theme_preprompt+='%f%k%B%F{green}%1{✔%}%f'
+		if [[ $last_status == 0 ]] ; then
+			PROMPT+='%f%k%B%F{green}%1{✔%}%f'
+		else
+			PROMPT+="%f%k%B%F{red}=${last_status}%f"
+		fi
+
+		if [[ $SSH_CONNECTION ]] ; then
+			PROMPT+=' %F{yellow}%n@%m%f' # user@host
+		fi
+
+		if [[ $danielparks_theme != compact ]] ; then
+			PROMPT+=$(_danielparks_theme_git_info)
+		fi
+
+		PROMPT+=' %F{white}%~%f' # directory
+
+		if [[ $danielparks_theme != compact ]] ; then
+			PROMPT+=' %F{blue}%D{%L:%M:%S %p}%f' # time
+			PROMPT+=$(_danielparks_theme_virtualenv_info)
+
+			if (( elapsed > 0.05 )) ; then
+				PROMPT+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
+			fi
+
+			PROMPT+=$'\n'
+		fi
+
+		prompt_char='%1{❯%}'
+		PROMPT+='%(!.%F{yellow}root.)'
 	else
-		_danielparks_theme_preprompt+="%f%k%B%F{red}=${last_status}%f"
-	fi
+		# minimal
+		PROMPT+='%f%k%B%(!.%F{yellow}root.)'
 
-	if [[ $SSH_CONNECTION ]] ; then
-		_danielparks_theme_preprompt+=' %F{yellow}%n@%m%f' # user@host
-	fi
-
-	if [[ $danielparks_theme != compact ]] ; then
-		_danielparks_theme_preprompt+=$(_danielparks_theme_git_info)
-	fi
-
-	_danielparks_theme_preprompt+=' %F{white}%~%f' # directory
-
-	if [[ $danielparks_theme != compact ]] ; then
-		_danielparks_theme_preprompt+=' %F{blue}%D{%L:%M:%S %p}%f' # time
-		_danielparks_theme_preprompt+=$(_danielparks_theme_virtualenv_info)
-
-		if (( elapsed > 0.05 )) ; then
-			_danielparks_theme_preprompt+=" %F{yellow}$(_danielparks_theme_humanize_interval $elapsed)%f"
+		if [[ $last_status == 0 ]] ; then
+			PROMPT+='%F{green}'
+			prompt_char='%1{✔%}'
+		else
+			PROMPT+='%F{red}'
+			prompt_char='%1{✘%}'
 		fi
-
-		_danielparks_theme_preprompt+=$'\n'
 	fi
 
-	PROMPT="${_danielparks_theme_preprompt}${_danielparks_theme_prompt}"
+	# 'root' if running as root. As many ❯ as $SHLVL.
+	PROMPT+="$(repeat $SHLVL print -n "$prompt_char")%f%k%b "
 }
 
 _danielparks_theme_preexec () {
@@ -184,11 +201,6 @@ _danielparks_theme_preexec () {
 
 	add-zsh-hook precmd _danielparks_theme_precmd
 	add-zsh-hook preexec _danielparks_theme_preexec
-
-	# 'root' if running as root. As many ❯ as $SHLVL.
-	local prompt_chars=$(repeat $SHLVL print -Pn '%1{❯%}')
-	_danielparks_theme_prompt="%(!.%F{yellow}root.)${prompt_chars}%f%k%b "
-	PROMPT="$_danielparks_theme_prompt"
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then

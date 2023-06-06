@@ -1,8 +1,14 @@
 mkdir_cd ~/modes/invalid
 danielparks_theme=invalid
 
-assert_prompt_eq $'\e]2;%~\a' $'
-%B%F{red}Invalid setting for $danielparks_theme (invalid), expected one of "full", "compact", or "".%f%b
-
+assert_prompt_eq $'\e]2;%~\a
+%B%F{red}Invalid setting for $danielparks_theme (invalid), expected one of "full", "compact", "minimal", or "".%f%b
+' $'
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
-%(!.%F{yellow}root.)❯%f%k%b '
+%(!.%F{yellow}root.)%1{❯%}%f%k%b '
+
+assert_prompt_eq $'\e]2;%~\a
+%B%F{red}Invalid setting for $danielparks_theme (invalid), expected one of "full", "compact", "minimal", or "".%f%b
+' $'
+%f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
+%(!.%F{yellow}root.)%1{❯%}%f%k%b '
