@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sudo apt-get install -yqq zsh
       - name: Install test harness
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: danielparks/zsh-test-harness
           path: harness
