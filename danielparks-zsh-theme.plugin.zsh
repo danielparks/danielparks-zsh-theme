@@ -107,6 +107,10 @@ _danielparks_theme_git_info () {
 	if [[ $head_behind > 0 ]] ; then
 		print -n " %F{${fg_color}}%1{↓%}${head_behind}%f"
 	fi
+
+	if [[ $stash_count > 0 ]] ; then
+		print -n " %F{yellow}(${stash_count} stashed)%f"
+	fi
 }
 
 _danielparks_theme_virtualenv_info () {

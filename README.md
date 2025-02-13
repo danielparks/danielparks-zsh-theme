@@ -36,6 +36,7 @@ if it is present in `$PATH`.
     features will be disabled, e.g. no commits ahead/behind).
     - Current branch, or SHA in detached HEAD state
     - If an operation such as a merge, rebase, or cherry pick is in progress
+    - How many stashed changes there are
     - Icons and color to indicate various states:
       | Icon | Color  | Meaning                            |
       |------|--------|------------------------------------|
