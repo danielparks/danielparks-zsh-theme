@@ -1,0 +1,7 @@
+create_cd_repo stash_1
+change_files_then_commit a b
+date >a
+git stash push a >/dev/null
+
+assert_git_info_eq ' %F{green}master%f %F{yellow}(1 stashed)%f'
+assert_git_info_fallback_eq ' %F{green}master%f'
