@@ -148,6 +148,9 @@ _danielparks_theme_precmd () {
 
 			# Blank line before prompt.
 			PROMPT+=$'\n'
+			PROMPT+="$danielparks_full_prefix"
+		else
+			PROMPT+="${danielparks_full_prefix}${danielparks_prompt_prefix}"
 		fi
 
 		if [[ $last_status == 0 ]] ; then
@@ -175,12 +178,14 @@ _danielparks_theme_precmd () {
 			fi
 
 			PROMPT+=$'\n'
+			PROMPT+="$danielparks_prompt_prefix"
 		fi
 
 		prompt_char='%1{❯%}'
 		PROMPT+='%(!.%F{yellow}root.)'
 	else
 		# minimal
+		PROMPT+="${danielparks_full_prefix}${danielparks_prompt_prefix}"
 		PROMPT+='%f%k%B%(!.%F{yellow}root.)'
 
 		if [[ $last_status == 0 ]] ; then
@@ -194,6 +199,7 @@ _danielparks_theme_precmd () {
 
 	# 'root' if running as root. As many ❯ as $SHLVL.
 	PROMPT+="$(repeat $SHLVL print -n "$prompt_char")%f%k%b "
+	PROMPT+="$danielparks_prompt_suffix"
 
 	_danielparks_theme_last=$danielparks_theme
 }

@@ -1,6 +1,17 @@
 mkdir_cd ~/modes/blank
 unset danielparks_theme
 
+danielparks_full_prefix=FULL_PREFIX
+danielparks_prompt_prefix=PREFIX
+danielparks_prompt_suffix=SUFFIX
+
+assert_prompt_eq $'\e]0;%~\a' $'
+FULL_PREFIX%f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
+PREFIX%(!.%F{yellow}root.)%1{❯%}%f%k%b SUFFIX'
+
+# Needs to come at end for --show-output
+unset danielparks_full_prefix danielparks_prompt_prefix danielparks_prompt_suffix
+
 assert_prompt_eq $'\e]0;%~\a' $'
 %f%k%B%F{green}%1{✔%}%f %F{white}%~%f %F{blue}%D{%L:%M:%S %p}%f
 %(!.%F{yellow}root.)%1{❯%}%f%k%b '

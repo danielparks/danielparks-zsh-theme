@@ -1,5 +1,15 @@
 mkdir_cd ~/modes/compact
 danielparks_theme=compact
 
+danielparks_full_prefix=FULL_PREFIX
+danielparks_prompt_prefix=PREFIX
+danielparks_prompt_suffix=SUFFIX
+
+assert_prompt_eq $'\e]0;%~\a' \
+	$'FULL_PREFIXPREFIX%f%k%B%F{green}%1{✔%}%f %F{white}%~%f%(!.%F{yellow}root.)%1{❯%}%f%k%b SUFFIX'
+
+# Needs to come at end for --show-output
+unset danielparks_full_prefix danielparks_prompt_prefix danielparks_prompt_suffix
+
 assert_prompt_eq $'\e]0;%~\a' \
 	$'%f%k%B%F{green}%1{✔%}%f %F{white}%~%f%(!.%F{yellow}root.)%1{❯%}%f%k%b '

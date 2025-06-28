@@ -43,6 +43,14 @@ See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
 ## Configuration
 
+### `git-status-vars` check
+
+You can set `IGNORE_GIT_STATUS_VARS=1` to disable the check for
+[git-status-vars][] on start up. Note that this will still use `git-status-vars`
+if it is present in `$PATH`.
+
+### Theme variants: `full`, `compact`, and `minimal`
+
 You can set `danielparks_theme=compact` to get a compact version of the theme.
 This is useful for situations where you want to copy and paste your shell.
 It may be set and unset during the shell session. Set `danielparks_theme=full`
@@ -52,13 +60,33 @@ You can set `danielparks_theme=minimal` to get an even more minimal version of
 the theme that just shows `✔` or `✘` as the prompt depending on whether the last
 command succeeded or failed.
 
-You can set `IGNORE_GIT_STATUS_VARS=1` to disable the check for
-[git-status-vars][] on start up. Note that this will still use `git-status-vars`
-if it is present in `$PATH`.
+### Custom prefix and suffix for prompt
+
+There are three variables you can use to customize the prompt:
+
+  - `$danielparks_full_prefix`: Printed at the start the first non-blank line
+    of the prompt. For `minimal` and `compact` this is immediately before
+    `$danielparks_prompt_prefix`.
+  - `$danielparks_prompt_prefix`: Printed at the start of the line that accepts
+    user input.
+  - `$danielparks_prompt_suffix`: Printed at the end of the prompt, right before
+    user input.
+
+A visualization:
+
+    FULL_PREFIX✔ ~ 11:13:47 AM
+    PROMPT_PREFIX❯ PROMPT_SUFFIXyour-command here
 
 ## Compatibility
 
 To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔ ↑ ↓ ❯"`.
+
+### iTerm2 shell integration
+
+iTerm2 shell integration tries to modify the prompt before each command just
+like this theme does. Generally the iTerm2 shell integration is loaded first, so
+this theme “wins” the prompt changes and the iTerm2 integration is silently
+suppressed.
 
 ## Testing
 
