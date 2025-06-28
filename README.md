@@ -116,7 +116,7 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 
 [git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
-[[iTerm2 shell integration]: https://iterm2.com/documentation-shell-integration.html
+[iTerm2 shell integration]: https://iterm2.com/documentation-shell-integration.html
 [zsh-test-harness]: https://github.com/danielparks/zsh-test-harness
 [issues]: https://github.com/danielparks/danielparks-zsh-theme/issues
 [prs]: https://github.com/danielparks/danielparks-zsh-theme/pulls
