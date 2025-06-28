@@ -217,12 +217,12 @@ _danielparks_theme_preexec () {
 
 	if [[ -z $danielparks_full_prefix ]] \
 			&& command -v iterm2_prompt_mark &>/dev/null ; then
-		danielparks_full_prefix="$(iterm2_prompt_mark)"
+		danielparks_full_prefix="%{$(iterm2_prompt_mark)%}"
 	fi
 
 	if [[ -z $danielparks_prompt_suffix ]] \
 			&& command -v iterm2_prompt_end &>/dev/null ; then
-		danielparks_prompt_suffix="$(iterm2_prompt_end)"
+		danielparks_prompt_suffix="%{$(iterm2_prompt_end)%}"
 	fi
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \

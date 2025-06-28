@@ -89,8 +89,8 @@ automatically set to record marks and the end of the prompt.
 This will not overwrite existing variables, so if they have some other value you
 may need to modify them:
 
-		danielparks_full_prefix="$(iterm2_prompt_mark)FULL_PREFIX"
-		danielparks_prompt_suffix="PROMPT_SUFFIX$(iterm2_prompt_end)"
+		danielparks_full_prefix="%{$(iterm2_prompt_mark)%}FULL_PREFIX"
+		danielparks_prompt_suffix="PROMPT_SUFFIX%{$(iterm2_prompt_end)%}"
 
 ## Testing
 
