@@ -13,21 +13,6 @@ before loading this plugin.
 
 See [EXAMPLE.md][] for a uncolored text version of the screenshot.
 
-## Configuration
-
-You can set `danielparks_theme=compact` to get a compact version of the theme.
-This is useful for situations where you want to copy and paste your shell.
-It may be set and unset during the shell session. Set `danielparks_theme=full`
-or just `unset` the variable to restore the full theme.
-
-You can set `danielparks_theme=minimal` to get an even more minimal version of
-the theme that just shows `✔` or `✘` as the prompt depending on whether the last
-command succeeded or failed.
-
-You can set `IGNORE_GIT_STATUS_VARS=1` to disable the check for
-[git-status-vars][] on start up. Note that this will still use `git-status-vars`
-if it is present in `$PATH`.
-
 ## What does it show?
 
   - Success (`✔`) or exit code (`=1`) of last command
@@ -58,8 +43,18 @@ if it is present in `$PATH`.
 
 ## Configuration
 
-This warns if [git-status-vars][] is not installed. To suppress the message, set
-`IGNORE_GIT_STATUS_VARS=1` before loading this plugin.
+You can set `danielparks_theme=compact` to get a compact version of the theme.
+This is useful for situations where you want to copy and paste your shell.
+It may be set and unset during the shell session. Set `danielparks_theme=full`
+or just `unset` the variable to restore the full theme.
+
+You can set `danielparks_theme=minimal` to get an even more minimal version of
+the theme that just shows `✔` or `✘` as the prompt depending on whether the last
+command succeeded or failed.
+
+You can set `IGNORE_GIT_STATUS_VARS=1` to disable the check for
+[git-status-vars][] on start up. Note that this will still use `git-status-vars`
+if it is present in `$PATH`.
 
 ## Compatibility
 
