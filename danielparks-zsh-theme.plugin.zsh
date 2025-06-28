@@ -128,9 +128,9 @@ _danielparks_theme_precmd () {
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		print -Pn '\e]2;%n@%m %~\a'
+		print -Pn '\e]0;%n@%m %~\a'
 	else
-		print -Pn '\e]2;%~\a'
+		print -Pn '\e]0;%~\a'
 	fi
 
 	# Build up $PROMPT (just printing the prompt won’t work if it doesn’t end with
