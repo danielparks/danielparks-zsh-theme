@@ -83,10 +83,14 @@ To test your terminal and font support, try `echo "⚠️  ● ⦿ ○ ✔ ↑ �
 
 ### iTerm2 shell integration
 
-iTerm2 shell integration tries to modify the prompt before each command just
-like this theme does. Generally the iTerm2 shell integration is loaded first, so
-this theme “wins” the prompt changes and the iTerm2 integration is silently
-suppressed.
+If [iTerm2 shell integration][] is detected the custom prefix variables will be
+automatically set to record marks and the end of the prompt.
+
+This will not overwrite existing variables, so if they have some other value you
+may need to modify them:
+
+		danielparks_full_prefix="$(iterm2_prompt_mark)FULL_PREFIX"
+		danielparks_prompt_suffix="PROMPT_SUFFIX$(iterm2_prompt_end)"
 
 ## Testing
 
@@ -112,6 +116,7 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 
 [git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
+[[iTerm2 shell integration]: https://iterm2.com/documentation-shell-integration.html
 [zsh-test-harness]: https://github.com/danielparks/zsh-test-harness
 [issues]: https://github.com/danielparks/danielparks-zsh-theme/issues
 [prs]: https://github.com/danielparks/danielparks-zsh-theme/pulls

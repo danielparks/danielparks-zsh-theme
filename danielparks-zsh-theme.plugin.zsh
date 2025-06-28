@@ -215,6 +215,16 @@ _danielparks_theme_preexec () {
 	add-zsh-hook precmd _danielparks_theme_precmd
 	add-zsh-hook preexec _danielparks_theme_preexec
 
+	if [[ -z $danielparks_full_prefix ]] \
+			&& command -v iterm2_prompt_mark &>/dev/null ; then
+		danielparks_full_prefix="$(iterm2_prompt_mark)"
+	fi
+
+	if [[ -z $danielparks_prompt_suffix ]] \
+			&& command -v iterm2_prompt_end &>/dev/null ; then
+		danielparks_prompt_suffix="$(iterm2_prompt_end)"
+	fi
+
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then
 		print -Pn '%B%F{red}git-status-vars not installed.%f%b Run' >&2
