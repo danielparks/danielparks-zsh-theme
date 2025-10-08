@@ -90,9 +90,13 @@ _danielparks_theme_git_info () {
 	print -n " %F{$fg_color}${ref}${icons}%f"
 
 	if [[ $repo_state != "Clean" ]] ; then
-		# Convert "CamelCase" string to "camel case" (space separated).
-		local words=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
-		print -n " %F{red}(${words:l})%f"
+		if [[ $repo_state == "Error" ]] ; then
+			print -n " %F{red}(${repo_error:l})%f"
+		else
+			# Convert "CamelCase" string to "camel case" (space separated).
+			local words=$(sed -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g' <<<$repo_state)
+			print -n " %F{red}(${words:l})%f"
+		fi
 	fi
 
 	fg_color=yellow
