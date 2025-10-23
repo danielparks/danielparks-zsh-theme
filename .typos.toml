@@ -1,0 +1,7 @@
+[files]
+extend-exclude = [
+  "target",
+]
+
+[default.extend-words]
+"iterm" = "iterm"

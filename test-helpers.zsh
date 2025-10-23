@@ -18,7 +18,7 @@ after_test () {
 
 assert_prompt_exit_eq () {
 	check_arguments assert_preprompt_eq 3 "$@"
-	assert_eq "$(_danielparks_theme_precmd 2>&1)" "$(print -Pn "$2")"
+	assert_eq "$(_danielparks_theme_precmd 2>&1)" "$(print -nP "$2")"
 	set +e
 	( return $1 )
 	_danielparks_theme_precmd &>/dev/null

@@ -10,6 +10,7 @@ defaults:
     shell: bash
 
 env:
+  CLICOLOR: 1
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
@@ -29,3 +30,11 @@ jobs:
         with:
           tool: git-status-vars
       - run: harness/run-tests.zsh --show-output
+
+  typos:
+    name: typos
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: crate-ci/typos@v1.38.1

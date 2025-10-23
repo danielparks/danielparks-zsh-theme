@@ -132,9 +132,9 @@ _danielparks_theme_precmd () {
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		print -Pn '\e]0;%n@%m %~\a'
+		print -nP '\e]0;%n@%m %~\a'
 	else
-		print -Pn '\e]0;%~\a'
+		print -nP '\e]0;%~\a'
 	fi
 
 	# Build up $PROMPT (just printing the prompt won’t work if it doesn’t end with
@@ -145,7 +145,7 @@ _danielparks_theme_precmd () {
 		if [[ $danielparks_theme != compact ]] ; then
 			if [[ $danielparks_theme != full && $danielparks_theme != ''
 					&& $danielparks_theme != $_danielparks_theme_last ]] ; then
-				print -Pn $'\n%B%F{red}Invalid setting for $danielparks_theme ('
+				print -nP $'\n%B%F{red}Invalid setting for $danielparks_theme ('
 				print -n $danielparks_theme
 				print -P $'), expected one of "full", "compact", "minimal", or "".%f%b'
 			fi
@@ -231,10 +231,10 @@ _danielparks_theme_preexec () {
 
 	if [[ -z $IGNORE_GIT_SUMMARY && -z $IGNORE_GIT_STATUS_VARS ]] \
 			&& ! command -v git-status-vars &>/dev/null ; then
-		print -Pn '%B%F{red}git-status-vars not installed.%f%b Run' >&2
-		print -Pn ' `cargo install git-status-vars` or visit' >&2
-		print -Pn ' https://github.com/danielparks/git-status-vars#installation' >&2
-		print -Pn ' for instructions. Set IGNORE_GIT_STATUS_VARS=1 to suppress' >&2
+		print -nP '%B%F{red}git-status-vars not installed.%f%b Run' >&2
+		print -nP ' `cargo install git-status-vars` or visit' >&2
+		print -nP ' https://github.com/danielparks/git-status-vars#installation' >&2
+		print -nP ' for instructions. Set IGNORE_GIT_STATUS_VARS=1 to suppress' >&2
 		print -P ' this message.' >&2
 	fi
 }
