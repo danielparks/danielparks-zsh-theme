@@ -60,6 +60,13 @@ You can set `danielparks_theme=minimal` to get an even more minimal version of
 the theme that just shows `✔` or `✘` as the prompt depending on whether the last
 command succeeded or failed.
 
+### Directory display
+
+You can set `danielparks_dir_format=%1d` or to whatever other prompt string you
+want to customize the directory display (see [zshmisc(1)]).
+
+The default is equivalent to `danielparks_dir_format=%~`.
+
 ### Custom prefix and suffix for prompt
 
 There are three variables you can use to customize the prompt:
@@ -116,6 +123,7 @@ warranty. As much as it can be said to be licensed, it is licensed under the
 
 [git-status-vars]: https://github.com/danielparks/git-status-vars
 [EXAMPLE.md]: EXAMPLE.md
+[zshmisc(1)]: https://man.freebsd.org/cgi/man.cgi?query=zshmisc&sektion=1&manpath=freebsd-release-ports
 [iTerm2 shell integration]: https://iterm2.com/documentation-shell-integration.html
 [zsh-test-harness]: https://github.com/danielparks/zsh-test-harness
 [issues]: https://github.com/danielparks/danielparks-zsh-theme/issues

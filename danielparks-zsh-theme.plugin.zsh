@@ -132,9 +132,9 @@ _danielparks_theme_precmd () {
 
 	# Output invisible information for terminal title.
 	if [[ $SSH_CONNECTION ]] ; then
-		print -nP '\e]0;%n@%m %~\a'
+		print -nP "\e]0;%n@%m ${danielparks_dir_format:-%~}\a"
 	else
-		print -nP '\e]0;%~\a'
+		print -nP "\e]0;${danielparks_dir_format:-%~}\a"
 	fi
 
 	# Build up $PROMPT (just printing the prompt won’t work if it doesn’t end with
@@ -171,7 +171,7 @@ _danielparks_theme_precmd () {
 			PROMPT+=$(_danielparks_theme_git_info)
 		fi
 
-		PROMPT+=' %F{white}%~%f' # directory
+		PROMPT+=" %F{white}${danielparks_dir_format:-%~}%f" # directory
 
 		if [[ $danielparks_theme != compact ]] ; then
 			PROMPT+=' %F{blue}%D{%L:%M:%S %p}%f' # time

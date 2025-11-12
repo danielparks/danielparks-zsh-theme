@@ -3,6 +3,7 @@ export GIT_CONFIG_GLOBAL=$HOME/.gitconfig GIT_CONFIG_SYSTEM=/dev/null
 
 # Disable warning message about git-status-vars
 export IGNORE_GIT_STATUS_VARS=1
+unset danielparks_dir_format
 
 # GitHub actions fail if these are not set.
 git config --global user.email "null@example.com"
