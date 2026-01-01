@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: sudo apt-get install -yqq zsh
       - name: Install test harness
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: danielparks/zsh-test-harness
           path: harness
@@ -36,5 +36,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: crate-ci/typos@v1.39.0
