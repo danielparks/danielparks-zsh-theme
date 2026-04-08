@@ -48,6 +48,51 @@ _danielparks_theme_git_info_fallback () {
 	print -n " %F{$fg_color}${ref}${icons}%f"
 }
 
+_danielparks_theme_jj_info () {
+	setopt local_options pipe_fail err_return
+	# For colors based on presence of description, the labels without-description
+	# and with-description need to be set up in ~/.config/jj/config.toml
+	jj --ignore-working-copy --at-op=@ --color always --no-pager \
+		log -r 'ancestors(@, 10)' --no-graph -T \
+		'label(
+				if(description == "", "without-description", "with-description"),
+				if(conflict, "x", if(empty, "○", "●"))
+					++ if(parents.len() > 1, "[" ++ parents.len() ++ "]", "")
+					++ if(divergent, "?", "")
+			)
+			++ "|" ++ parents.len()
+			++ "|" ++ bookmarks.map(|b| b.name()).join(", ")
+			++ "\n"' \
+		2>/dev/null \
+	| awk -F '|' '
+		{
+			if (done == 1) {
+				next;
+			}
+			if (NR < 4) {
+				printf " %s", $1;
+			}
+			if ($3 != "") {
+				# Bookmark
+				if (NR >= 4) {
+					printf "+%d ", NR-4;
+				}
+				printf " %s", $3;
+				done=1;
+			}
+			if ($2 > 1) {
+				# Merge commit.
+				done=1;
+			}
+		}
+		END {
+			if (done != 1 && NR >= 10) {
+				printf " +>%d", NR-4;
+			}
+		}
+	'
+}
+
 _danielparks_theme_git_info () {
 	eval $(git-status-vars 2>/dev/null)
 
@@ -168,7 +213,7 @@ _danielparks_theme_precmd () {
 		fi
 
 		if [[ $danielparks_theme != compact ]] ; then
-			PROMPT+=$(_danielparks_theme_git_info)
+			PROMPT+=$(_danielparks_theme_jj_info || _danielparks_theme_git_info)
 		fi
 
 		PROMPT+=" %F{white}${danielparks_dir_format:-%~}%f" # directory
