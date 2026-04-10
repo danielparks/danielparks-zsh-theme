@@ -48,46 +48,67 @@ _danielparks_theme_git_info_fallback () {
 	print -n " %F{$fg_color}${ref}${icons}%f"
 }
 
-_danielparks_theme_jj_info () {
-	setopt local_options pipe_fail err_return
+# Useful for seeing what data we’re working with.
+_danielparks_theme_jj_log () {
 	# For colors based on presence of description, the labels without-description
 	# and with-description need to be set up in ~/.config/jj/config.toml
 	jj --color always --no-pager \
-		log -r 'ancestors(@, 10)' --no-graph -T \
-		'label(
-				if(description == "", "without-description", "with-description"),
-				if(conflict, "x", if(empty, "○", "●"))
-					++ if(parents.len() > 1, "[" ++ parents.len() ++ "]", "")
-					++ if(divergent, "?", "")
-			)
-			++ "|" ++ parents.len()
-			++ "|" ++ bookmarks.map(|b| b.name()).join(", ")
-			++ "\n"' \
-		2>/dev/null \
-	| awk -F '|' '
+		log -r 'ancestors(@, 15)' --no-graph -T \
+		'separate("|",
+			label(
+					if(description == "", "without-description", "with-description"),
+					if(conflict, "x",
+						if(immutable,
+							if(empty, "◇", "◆"),
+							if(empty, "○", "●")))
+						++ if(divergent, "?", "")
+				),
+			parents.len(),
+			bookmarks.map(|b|
+					b.name()
+					++ if(b.remote(), " "
+						++ coalesce(
+								b.tracking_ahead_count().exact(),
+								b.tracking_ahead_count().lower() ++ "+"
+						) ++ "↑"
+						++ coalesce(
+								b.tracking_behind_count().exact(),
+								b.tracking_behind_count().lower() ++ "+"
+						) ++ "↓")
+				).join(", ")
+			) ++ "\n"'
+}
+
+_danielparks_theme_jj_info () {
+	setopt local_options pipe_fail err_return
+	_danielparks_theme_jj_log 2>/dev/null | awk -F '|' '
+		BEGIN { limit = 5 }
 		{
 			if (done == 1) {
 				next;
 			}
-			if (NR < 4) {
+			if (NR <= limit) {
 				printf " %s", $1;
 			}
 			if ($3 != "") {
 				# Bookmark
-				if (NR >= 4) {
-					printf "+%d ", NR-4;
+				if (NR > limit) {
+					printf " …";
 				}
 				printf " %s", $3;
 				done=1;
 			}
 			if ($2 > 1) {
 				# Merge commit.
+				if (NR <= limit) {
+					printf " %s", $2;
+				}
 				done=1;
 			}
 		}
 		END {
-			if (done != 1 && NR >= 10) {
-				printf " +>%d", NR-4;
+			if (done != 1 && NR > limit) {
+				printf " …";
 			}
 		}
 	'
