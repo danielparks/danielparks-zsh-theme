@@ -52,7 +52,7 @@ _danielparks_theme_jj_info () {
 	setopt local_options pipe_fail err_return
 	# For colors based on presence of description, the labels without-description
 	# and with-description need to be set up in ~/.config/jj/config.toml
-	jj --ignore-working-copy --at-op=@ --color always --no-pager \
+	jj --color always --no-pager \
 		log -r 'ancestors(@, 10)' --no-graph -T \
 		'label(
 				if(description == "", "without-description", "with-description"),
