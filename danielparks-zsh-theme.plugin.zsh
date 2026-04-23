@@ -66,7 +66,7 @@ _danielparks_theme_jj_log () {
 			parents.len(),
 			bookmarks.map(|b|
 					b.name()
-					++ if(b.remote(), " "
+					++ if(b.remote() && b.tracked(), " "
 						++ coalesce(
 								b.tracking_ahead_count().exact(),
 								b.tracking_ahead_count().lower() ++ "+"
