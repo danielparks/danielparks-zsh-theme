@@ -56,27 +56,24 @@ _danielparks_theme_jj_log () {
 		log -r 'ancestors(@, 15)' --no-graph -T \
 		'separate("|",
 			label(
-					if(description == "", "without-description", "with-description"),
-					if(conflict, "x",
-						if(immutable,
-							if(empty, "◇", "◆"),
-							if(empty, "○", "●")))
-						++ if(divergent, "?", "")
-				),
+				if(description == "", "without-description", "with-description"),
+				if(conflict, "x",
+					if(immutable,
+						if(empty, "◇", "◆"),
+						if(empty, "○", "●")))
+					++ if(divergent, "?", "")
+			),
 			parents.len(),
-			bookmarks.map(|b|
-					separate("@", b.name(), b.remote())
-					++ if(b.remote() && b.tracked(), " "
-						++ coalesce(
-								b.tracking_ahead_count().exact(),
-								b.tracking_ahead_count().lower() ++ "+"
-						) ++ "↑"
-						++ coalesce(
-								b.tracking_behind_count().exact(),
-								b.tracking_behind_count().lower() ++ "+"
-						) ++ "↓")
-				).join(", ")
-			) ++ "\n"'
+			separate(" ",
+				local_bookmarks.map(|b|
+					b.name() ++
+					if(b.conflict(), "??", if(!b.synced(), "*", ""))
+				).join(" "),
+				remote_bookmarks.filter(|b| !b.synced()).map(|b|
+					b.name() ++ "@" ++ b.remote()
+				).join(" ")
+			),
+		) ++ "\n"'
 }
 
 _danielparks_theme_jj_info () {
