@@ -1,8 +1,17 @@
 name: PR checks
 
 on:
-  pull_request:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -13,28 +22,34 @@ env:
   CLICOLOR: 1
   DEBIAN_FRONTEND: noninteractive
 
+# These would more naturally be separate jobs, but GitHub actions “bills” each
+# job separately and rounds up to the next minute, so four 10 second jobs “cost”
+# my account 4 action minutes.
 jobs:
-  tests:
-    name: tests
+  checks:
+    name: Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      security-events: write # SARIF reporting for zizmor
 
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
       - run: sudo apt-get install -yqq zsh
       - name: Install test harness
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           repository: danielparks/zsh-test-harness
           path: harness
+          persist-credentials: false
       - uses: taiki-e/install-action@6887963ccf37a9ddcd8c5fa4baeb3e1e5fd61fa1 # v2.81.2
         with:
           tool: git-status-vars
+
       - run: harness/run-tests.zsh --show-output
+        if: ${{ !cancelled() }}
 
-  typos:
-    name: typos
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - uses: crate-ci/typos@f8a58b6b53f2279f71eb605f03a4ae4d10608f45 # v1.47.0
+        if: ${{ !cancelled() }}
