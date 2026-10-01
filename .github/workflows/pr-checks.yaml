@@ -44,12 +44,12 @@ jobs:
           repository: danielparks/zsh-test-harness
           path: harness
           persist-credentials: false
-      - uses: taiki-e/install-action@67729d5c413db75907f0ad1e39bb04b9c868ff60 # v2.85.7
+      - uses: taiki-e/install-action@0758d235715de2f3551eacc980d9ae8fce9342c3 # v2.87.3
         with:
           tool: git-status-vars
 
       - run: harness/run-tests.zsh --show-output
         if: ${{ !cancelled() }}
 
-      - uses: crate-ci/typos@bee27e3a4fd1ea2111cf90ab89cd076c870fce14 # v1.48.0
+      - uses: crate-ci/typos@d43b6c087ac471e2ea7b8af622ff15f05c0c365b # v1.50.1
         if: ${{ !cancelled() }}
